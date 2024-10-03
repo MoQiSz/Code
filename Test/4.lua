@@ -127,14 +127,13 @@ local aa = {
             DialogOpen = false,
             UseAcrylic = false,
             Acrylic = false,
-            Transparency = true,
+            Transparency = false,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
-        x.NotifyHolder = t:Init(w)
-        warn(x.NotifyHolder)
+        t:Init(w, x)
         function x.SafeCallback(y, z, ...)
             if not z then
                 return
@@ -238,8 +237,12 @@ local aa = {
             end
         end
         function x.ToggleTransparency(C, D)
+            x.Transparency = D
             if x.Window then
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+            end
+            if x.NotifyHolder then
+                -- x.NotifyHolder.Frame
             end
         end
         function x.Notify(C, D)
@@ -473,6 +476,11 @@ local aa = {
                 l.Model = m.Model
                 l.AddParent = m.AddParent
                 l.SetVisibility = m.SetVisibility
+            end
+            if e(d.Parent.Parent).Transparency == false then
+                warn("Falsdwdwd")
+            else
+                warn("TRRURRR")
             end
             return l
         end
@@ -970,7 +978,7 @@ local aa = {
         local h = d.Parent.Parent
         local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        function o.Init(p, q)
+        function o.Init(p, q, x)
             o.Holder =
                 n(
                 "Frame",
@@ -994,6 +1002,7 @@ local aa = {
                     )
                 }
             )
+            x.NotifyHolder = o.Holder
         end
         function o.New(p, q)
             q.Title = q.Title or ""
@@ -1109,7 +1118,7 @@ local aa = {
             )
             if q.Content == "" then
                 if q.SubContent == "" then
-                    r.Size = UDim2.new(1, 0, 0.785, 0) 
+                    r.Size = UDim2.new(1, 0, 0.785, 0)
                 end
                 r.ContentLabel.Visible = false
             end
