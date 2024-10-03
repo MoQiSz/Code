@@ -242,7 +242,14 @@ local aa = {
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
             end
             if x.NotifyHolder then
-                -- x.NotifyHolder.Frame
+                if #x.NotifyHolder:GetChildren() > 1 then
+                    for _ , XL in next, x.NotifyHolder:GetChildren() do
+                        if XL:IsA("Frame") then
+                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                        end
+                    end
+                end
+                -- x.NotifyHolder.Frame.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
             end
         end
         function x.Notify(C, D)
@@ -394,7 +401,8 @@ local aa = {
                     Size = UDim2.fromScale(1, 1),
                     BackgroundTransparency = 0.9,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    BorderSizePixel = 0
+                    BorderSizePixel = 0,
+                    Name = "Holder"
                 },
                 {
                     j(
@@ -415,7 +423,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.35 or 0,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -476,11 +484,6 @@ local aa = {
                 l.Model = m.Model
                 l.AddParent = m.AddParent
                 l.SetVisibility = m.SetVisibility
-            end
-            if e(d.Parent.Parent).Transparency == false then
-                warn("Falsdwdwd")
-            else
-                warn("TRRURRR")
             end
             return l
         end
