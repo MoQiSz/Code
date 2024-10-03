@@ -114,7 +114,7 @@ local aa = {
         local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         w.Name = "CrazyDay"
         v(w)
-        t:Init(w)
+        warn(t:Init(w).Holder)
         local x = {
             Version = "1.1.0",
             OpenFrames = {},
@@ -130,7 +130,7 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
-            NotifyHolder = nil,
+            NotifyHolder = "YEDHEE",
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
@@ -969,7 +969,6 @@ local aa = {
         local h = d.Parent.Parent
         local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        warn(e(d.Parent.Parent).Theme)
         function o.Init(p, q)
             o.Holder =
                 n(
