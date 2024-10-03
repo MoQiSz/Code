@@ -130,7 +130,6 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
-            NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
@@ -200,7 +199,8 @@ local aa = {
                 UpdateDate = D.UpdateDate,
                 UpdateLog = D.UpdateLog,
                 IconVisual = D.IconVisual,
-                TabWidth = D.TabWidth
+                TabWidth = D.TabWidth,
+                NotifyHolder = "GAGAWGGAWGAGAG"
             }
             x.Window = E
             x:SetTheme(D.Theme)
@@ -994,7 +994,7 @@ local aa = {
                 }
             )
 
-            warn(h)
+            warn(d.Parent.Window)
         end
         function o.New(p, q)
             q.Title = q.Title or ""
