@@ -114,7 +114,6 @@ local aa = {
         local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         w.Name = "CrazyDay"
         v(w)
-        warn(t:Init(w).Holder)
         local x = {
             Version = "1.1.0",
             OpenFrames = {},
@@ -128,12 +127,13 @@ local aa = {
             DialogOpen = false,
             UseAcrylic = false,
             Acrylic = false,
-            Transparency = true,
+            Transparency = false,
             MinimizeKeybind = nil,
-            NotifyHolder = "YEDHEE",
+            NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
+        t:Init(w, x)
         function x.SafeCallback(y, z, ...)
             if not z then
                 return
@@ -237,8 +237,16 @@ local aa = {
             end
         end
         function x.ToggleTransparency(C, D)
+            x.Transparency = D
             if x.Window then
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+            end
+            if x.NotifyHolder then
+                for _ , L in next, w:FindFirstChild(x.NotifyHolder) do
+                    if L:IsA("Frame") then
+                        L.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                    end
+                end
             end
         end
         function x.Notify(C, D)
@@ -390,7 +398,8 @@ local aa = {
                     Size = UDim2.fromScale(1, 1),
                     BackgroundTransparency = 0.9,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    BorderSizePixel = 0
+                    BorderSizePixel = 0,
+                    Name = "Holder"
                 },
                 {
                     j(
@@ -411,7 +420,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.35 or 0,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -969,7 +978,7 @@ local aa = {
         local h = d.Parent.Parent
         local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        function o.Init(p, q)
+        function o.Init(p, q, x)
             o.Holder =
                 n(
                 "Frame",
@@ -993,6 +1002,7 @@ local aa = {
                     )
                 }
             )
+            x.NotifyHolder = o.Holder
         end
         function o.New(p, q)
             q.Title = q.Title or ""
@@ -1108,7 +1118,7 @@ local aa = {
             )
             if q.Content == "" then
                 if q.SubContent == "" then
-                    r.Size = UDim2.new(1, 0, 0.785, 0) 
+                    r.Size = UDim2.new(1, 0, 0.785, 0)
                 end
                 r.ContentLabel.Visible = false
             end
