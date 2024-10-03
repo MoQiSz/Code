@@ -127,9 +127,9 @@ local aa = {
             DialogOpen = false,
             UseAcrylic = false,
             Acrylic = false,
-            Transparency = true,
+            Transparency = false,
             MinimizeKeybind = nil,
-            NotifyHolder = "YEDHEE",
+            NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
@@ -237,8 +237,13 @@ local aa = {
             end
         end
         function x.ToggleTransparency(C, D)
+            x.Transparency = D
             if x.Window then
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+            end
+            if x.NotifyHolder then
+                warn(#x.NotifyHolder:GetChildren())
+                x.NotifyHolder.Frame.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
             end
         end
         function x.Notify(C, D)
@@ -390,7 +395,8 @@ local aa = {
                     Size = UDim2.fromScale(1, 1),
                     BackgroundTransparency = 0.9,
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                    BorderSizePixel = 0
+                    BorderSizePixel = 0,
+                    Name = "Holder"
                 },
                 {
                     j(
@@ -411,7 +417,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.35 or 0,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -1109,7 +1115,7 @@ local aa = {
             )
             if q.Content == "" then
                 if q.SubContent == "" then
-                    r.Size = UDim2.new(1, 0, 0.785, 0) 
+                    r.Size = UDim2.new(1, 0, 0.785, 0)
                 end
                 r.ContentLabel.Visible = false
             end
