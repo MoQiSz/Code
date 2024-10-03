@@ -199,8 +199,7 @@ local aa = {
                 UpdateDate = D.UpdateDate,
                 UpdateLog = D.UpdateLog,
                 IconVisual = D.IconVisual,
-                TabWidth = D.TabWidth,
-                NotifyHolder = "GAGAWGGAWGAGAG"
+                TabWidth = D.TabWidth
             }
             x.Window = E
             x:SetTheme(D.Theme)
@@ -969,6 +968,9 @@ local aa = {
         local h = d.Parent.Parent
         local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
+        if h.MinimizeKey then
+            warn(h.MinimizeKey)
+        end
         function o.Init(p, q)
             o.Holder =
                 n(
@@ -993,8 +995,6 @@ local aa = {
                     )
                 }
             )
-
-            warn(d.Parent.Window.NotifyHolder)
         end
         function o.New(p, q)
             q.Title = q.Title or ""
