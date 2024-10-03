@@ -114,7 +114,6 @@ local aa = {
         local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         w.Name = "CrazyDay"
         v(w)
-        t:Init(w)
         local x = {
             Version = "1.1.0",
             OpenFrames = {},
@@ -130,9 +129,11 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
+            NotifyHolder = "YEDHEE",
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
+        t:Init(w, x)
         function x.SafeCallback(y, z, ...)
             if not z then
                 return
@@ -966,12 +967,9 @@ local aa = {
     [12] = function()
         local c, d, e, f, g = b(12)
         local h = d.Parent.Parent
-        local i, j, k, x = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic), e(h.Parent)
+        local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        if x.MinimizeKey then
-            warn(x.MinimizeKey)
-        end
-        function o.Init(p, q)
+        function o.Init(p, q, x)
             o.Holder =
                 n(
                 "Frame",
@@ -995,6 +993,7 @@ local aa = {
                     )
                 }
             )
+            x.NotifyHolder = o.Holder
         end
         function o.New(p, q)
             q.Title = q.Title or ""
