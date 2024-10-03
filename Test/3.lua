@@ -114,7 +114,6 @@ local aa = {
         local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         w.Name = "CrazyDay"
         v(w)
-        t:Init(w)
         local x = {
             Version = "1.1.0",
             OpenFrames = {},
@@ -130,9 +129,11 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
+            NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
+        t:Init(w, x)
         function x.SafeCallback(y, z, ...)
             if not z then
                 return
@@ -238,6 +239,9 @@ local aa = {
         function x.ToggleTransparency(C, D)
             if x.Window then
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+            end
+            if x.NotifyHolder then
+                -- x.NotifyHolder.Frame
             end
         end
         function x.Notify(C, D)
@@ -968,10 +972,7 @@ local aa = {
         local h = d.Parent.Parent
         local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        if h.MinimizeKey then
-            warn(h.MinimizeKey)
-        end
-        function o.Init(p, q)
+        function o.Init(p, q, x)
             o.Holder =
                 n(
                 "Frame",
@@ -995,6 +996,7 @@ local aa = {
                     )
                 }
             )
+            x.NotifyHolder = o.Holder
         end
         function o.New(p, q)
             q.Title = q.Title or ""
@@ -1110,7 +1112,7 @@ local aa = {
             )
             if q.Content == "" then
                 if q.SubContent == "" then
-                    r.Size = UDim2.new(1, 0, 0.785, 0) 
+                    r.Size = UDim2.new(1, 0, 0.785, 0)
                 end
                 r.ContentLabel.Visible = false
             end
@@ -1123,6 +1125,7 @@ local aa = {
                 {BackgroundTransparency = 1, Size = r.Size, Position = UDim2.fromScale(1, 0)},
                 {r.AcrylicPaint.Frame, r.Title, r.CloseButton, r.LabelHolder}
             )
+            r.AcrylicPaint.Frame.Background.BackgroundTransparency = 0.5
             r.Holder =
                 n("Frame", {BackgroundTransparency = 1, Size = UDim2.new(1, 0, 0, 200), Parent = o.Holder}, {r.Root})
             local s = i.GroupMotor.new {Scale = 1, Offset = 60}
