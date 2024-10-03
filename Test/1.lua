@@ -130,7 +130,6 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
-            NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
@@ -967,9 +966,11 @@ local aa = {
     [12] = function()
         local c, d, e, f, g = b(12)
         local h = d.Parent.Parent
-        local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
+        local i, j, k, x = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic), e(h)
         local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
-        warn(d.Parent.Parent.Theme)
+        if x.MinimizeKey then
+            warn(x.MinimizeKey)
+        end
         function o.Init(p, q)
             o.Holder =
                 n(
