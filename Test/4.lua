@@ -114,7 +114,6 @@ local aa = {
         local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         w.Name = "CrazyDay"
         v(w)
-        t:Init(w)
         local x = {
             Version = "1.1.0",
             OpenFrames = {},
@@ -130,9 +129,12 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
+            NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
+        x.NotifyHolder = t:Init(w)
+        warn(x.NotifyHolder)
         function x.SafeCallback(y, z, ...)
             if not z then
                 return
@@ -199,8 +201,7 @@ local aa = {
                 UpdateDate = D.UpdateDate,
                 UpdateLog = D.UpdateLog,
                 IconVisual = D.IconVisual,
-                TabWidth = D.TabWidth,
-                NotifyHolder = "GAGAWGGAWGAGAG"
+                TabWidth = D.TabWidth
             }
             x.Window = E
             x:SetTheme(D.Theme)
@@ -993,8 +994,6 @@ local aa = {
                     )
                 }
             )
-
-            warn(d.Parent.Window)
         end
         function o.New(p, q)
             q.Title = q.Title or ""
