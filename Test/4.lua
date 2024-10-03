@@ -994,9 +994,7 @@ local aa = {
                 }
             )
 
-            for II , VV in next, e(h) do
-                warn(II, VV)
-            end
+            warn(h)
         end
         function o.New(p, q)
             q.Title = q.Title or ""
