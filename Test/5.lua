@@ -130,6 +130,7 @@ local aa = {
             Acrylic = false,
             Transparency = true,
             MinimizeKeybind = nil,
+            NotifyHolder = "YEDHEE",
             MinimizeKey = Enum.KeyCode.LeftControl,
             GUI = w
         }
@@ -992,8 +993,6 @@ local aa = {
                     )
                 }
             )
-
-            e(d.Parent.Window).NotifyHolder = o.Holder
         end
         function o.New(p, q)
             q.Title = q.Title or ""
