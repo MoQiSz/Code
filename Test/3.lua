@@ -968,7 +968,7 @@ local aa = {
         local c, d, e, f, g = b(12)
         local h = d.Parent.Parent
         local i, j, k = e(h.Packages.Flipper), e(h.Creator), e(h.Acrylic)
-        local l, m, n, o = i.Spring.new, i.Instant.new, j.New, {}
+        local l, m, n, o, uy = i.Spring.new, i.Instant.new, j.New, {}, e(h)
         function o.Init(p, q)
             o.Holder =
                 n(
@@ -994,10 +994,7 @@ local aa = {
                 }
             )
 
-
-            for II , VV in next, (p) do
-                warn(II, VV)
-            end
+            warn(uy)
         end
         function o.New(p, q)
             q.Title = q.Title or ""
