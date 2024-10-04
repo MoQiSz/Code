@@ -242,9 +242,11 @@ local aa = {
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
             end
             if x.NotifyHolder then
-                for _ , L in next, x.NotifyHolder do
-                    if L:IsA("Frame") then
-                        L.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                if #x.NotifyHolder:GetChildren() > 1 then
+                    for _ , XL in next, x.NotifyHolder:GetChildren() do
+                        if XL:IsA("Frame") then
+                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                        end
                     end
                 end
             end
@@ -1433,7 +1435,7 @@ local aa = {
         local h, i = game:GetService "TextService", d.Parent.Parent
         local j, k = e(i.Packages.Flipper), e(i.Creator)
         local l = k.New
-        return function(m, n)
+        return function(m, n, xx)
             n = n or false
             local o = {}
             o.Input =
@@ -1450,7 +1452,7 @@ local aa = {
                     BackgroundTransparency = 1,
                     Size = UDim2.fromScale(1, 1),
                     Position = UDim2.fromOffset(10, 0),
-                    ThemeTag = {TextColor3 = "Text", PlaceholderColor3 = "SubText"}
+                    ThemeTag = {TextColor3 = xx and "SubText" or "Text", PlaceholderColor3 = "SubText"}
                 }
             )
             o.Container =
@@ -1501,7 +1503,7 @@ local aa = {
             local p = function()
                 local p, q = 2, o.Container.AbsoluteSize.X
                 if not o.Input:IsFocused() or o.Input.TextBounds.X <= q - 2 * p then
-                    o.Input.Position = UDim2.new(0, p, 0, 0)
+                    o.Input.Position = xx and UDim2.fromOffset(0, 0) or UDim2.new(0, p, 0, 0)
                 else
                     local r = o.Input.CursorPosition
                     if r ~= -1 then
@@ -3736,17 +3738,28 @@ local aa = {
             assert(f.Min, "Slider - Missing minimum value.")
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
-            local h, i, j =
+            local h, i, j, xk =
                 {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
-                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+                ac(aj.Element)(f.Title, f.Description, d.Container, false),
+                ac(aj.Textbox)(nil, nil, true)
             j.DescLabel.Size = UDim2.new(1, -170, 0, 14)
             h.SetTitle = j.SetTitle
             h.SetDesc = j.SetDesc
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            xk.Frame.Position = UDim2.new(0, -4, 0.5, 0)
+            xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
+            xk.Frame.Size = UDim2.new(0, 100, 0, 14)
+            xk.Frame.BackgroundTransparency = 1
+            xk.Input.Text = f.Default or "0"
+            xk.Input.TextXAlignment = Enum.TextXAlignment.Right
+            xk.Input.TextSize = 12
+            xk.Input.PlaceholderText = ""
+            xk.Indicator.Visible = false
+            xk.Frame:FindFirstChild("UIStroke").Transparency = 1
             local k =
                 ai(
                 "ImageLabel",
@@ -3776,6 +3789,7 @@ local aa = {
                         Text = "Value",
                         TextSize = 12,
                         TextWrapped = true,
+                        Visible = false,
                         TextXAlignment = Enum.TextXAlignment.Right,
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         BackgroundTransparency = 1,
@@ -3804,6 +3818,7 @@ local aa = {
                     l
                 }
             )
+            xk.Frame.Parent = o
             ah.AddSignal(
                 k.InputBegan,
                 function(p)
@@ -3859,6 +3874,7 @@ local aa = {
                 k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
                 m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
                 n.Text = tostring(p.Value)
+                xk.Input.Text = tostring(p.Value)
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
             end
