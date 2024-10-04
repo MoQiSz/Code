@@ -249,7 +249,6 @@ local aa = {
                         end
                     end
                 end
-                -- x.NotifyHolder.Frame.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
             end
         end
         function x.Notify(C, D)
@@ -1436,7 +1435,7 @@ local aa = {
         local h, i = game:GetService "TextService", d.Parent.Parent
         local j, k = e(i.Packages.Flipper), e(i.Creator)
         local l = k.New
-        return function(m, n)
+        return function(m, n, xx)
             n = n or false
             local o = {}
             o.Input =
@@ -1452,8 +1451,8 @@ local aa = {
                     AutomaticSize = Enum.AutomaticSize.Y,
                     BackgroundTransparency = 1,
                     Size = UDim2.fromScale(1, 1),
-                    Position = UDim2.fromOffset(10, 0),
-                    ThemeTag = {TextColor3 = "Text", PlaceholderColor3 = "SubText"}
+                    Position = xx and UDim2.fromOffset(0, 0) or UDim2.fromOffset(10, 0),
+                    ThemeTag = {TextColor3 = xx and "SubText" or "Text", PlaceholderColor3 = "SubText"}
                 }
             )
             o.Container =
@@ -3739,17 +3738,28 @@ local aa = {
             assert(f.Min, "Slider - Missing minimum value.")
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
-            local h, i, j =
+            local h, i, j, xk =
                 {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
-                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+                ac(aj.Element)(f.Title, f.Description, d.Container, false),
+                ac(aj.Textbox)(nil, nil, true)
             j.DescLabel.Size = UDim2.new(1, -170, 0, 14)
             h.SetTitle = j.SetTitle
             h.SetDesc = j.SetDesc
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            xk.Frame.Position = UDim2.new(0, -4, 0.5, 0)
+            xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
+            xk.Frame.Size = UDim2.new(0, 100, 0, 14)
+            xk.Frame.BackgroundTransparency = 1
+            xk.Input.Text = f.Default or "0"
+            xk.Input.TextXAlignment = Enum.TextXAlignment.Right
+            xk.Input.TextSize = 12
+            xk.Input.PlaceholderText = ""
+            xk.Indicator.Visible = false
+            xk.Frame:FindFirstChild("UIStroke").Transparency = 1
             local k =
                 ai(
                 "ImageLabel",
@@ -3807,6 +3817,7 @@ local aa = {
                     l
                 }
             )
+            xk.Frame.Parent = o
             ah.AddSignal(
                 k.InputBegan,
                 function(p)
