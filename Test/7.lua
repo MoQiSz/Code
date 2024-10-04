@@ -3739,7 +3739,7 @@ local aa = {
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
             local h, i, j, xk =
-                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
+                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding or 0, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
                 ac(aj.Element)(f.Title, f.Description, d.Container, false),
@@ -3857,11 +3857,19 @@ local aa = {
                 end
             )
             ah.AddSignal(
-                xk.Input:GetPropertyChangedSignal "Text",
-                function()
-                    if game:GetService "UserInputService":GetFocusedTextBox() then
-                        h:SetValue(xk.Input.Text)
+                xk.Input.FocusLost,
+                function(xl)
+                    if not xl then
+                        return warn("NOT XL")
                     end
+                    if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
+                        xk.Input.Text = 0
+                    end
+                    if h.Rounding == 0 and xk.Input.Text:find(".") then
+                       local qd = xk.Input.Text:gsub(".","")
+                       xk.Input.Text = qd
+                    end
+                    h:SetValue(xk.Input.Text)
                 end
             )
             ah.AddSignal(
@@ -3880,12 +3888,13 @@ local aa = {
                 end
                 if (not tonumber(xk.Input.Text)) and xk.Input.Text:len() > 0 then
                     xk.Input.Text = p.Value
+                else
+                    p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
+                    k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
+                    m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
+                    n.Text = tostring(p.Value)
+                    xk.Input.Text = p.Value
                 end
-                p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
-                k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
-                m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
-                n.Text = tostring(p.Value)
-                xk.Input.Text = p.Value
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
             end
