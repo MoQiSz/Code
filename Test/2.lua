@@ -242,8 +242,13 @@ local aa = {
                 x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
             end
             if x.NotifyHolder then
-                warn(#x.NotifyHolder:GetChildren())
-                x.NotifyHolder.Frame.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                if #x.NotifyHolder:GetChildren() > 1 then
+                    for _ , XL in next, x.NotifyHolder:GetChildren() do
+                        if XL:IsA("Frame") then
+                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                        end
+                    end
+                end
             end
         end
         function x.Notify(C, D)
@@ -3733,17 +3738,28 @@ local aa = {
             assert(f.Min, "Slider - Missing minimum value.")
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
-            local h, i, j =
+            local h, i, j, xk =
                 {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
-                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+                ac(aj.Element)(f.Title, f.Description, d.Container, false),
+                ac(aj.Textbox)()
             j.DescLabel.Size = UDim2.new(1, -170, 0, 14)
             h.SetTitle = j.SetTitle
             h.SetDesc = j.SetDesc
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            xk.Frame.Position = UDim2.new(0, -4, 0.5, 0)
+            xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
+            xk.Frame.Size = UDim2.new(0, 100, 0, 14)
+            xk.Frame.BackgroundTransparency = 1
+            xk.Input.Text = f.Default or ""
+            xk.Input.Position = UDim2.fromOffset(0, 0)
+            xk.Input.TextXAlignment = Enum.TextXAlignment.Right
+            xk.Input.PlaceholderText = ""
+            xk.Indicator.Visible = false
+            xk.Frame:FindFirstChild("UIStroke").Transparency = 1
             local k =
                 ai(
                 "ImageLabel",
@@ -3801,6 +3817,7 @@ local aa = {
                     l
                 }
             )
+            xk.Frame.Parent = o
             ah.AddSignal(
                 k.InputBegan,
                 function(p)
