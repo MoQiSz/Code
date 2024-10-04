@@ -1503,7 +1503,7 @@ local aa = {
             local p = function()
                 local p, q = 2, o.Container.AbsoluteSize.X
                 if not o.Input:IsFocused() or o.Input.TextBounds.X <= q - 2 * p then
-                    o.Input.Position = UDim2.new(0, p, 0, 0)
+                    o.Input.Position = xx and UDim2.fromOffset(0, 0) or UDim2.new(0, p, 0, 0)
                 else
                     local r = o.Input.CursorPosition
                     if r ~= -1 then
@@ -3754,8 +3754,7 @@ local aa = {
             xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
             xk.Frame.Size = UDim2.new(0, 100, 0, 14)
             xk.Frame.BackgroundTransparency = 1
-            xk.Input.Text = f.Default or ""
-            xk.Input.Position = UDim2.fromOffset(0, 0)
+            xk.Input.Text = f.Default or "0"
             xk.Input.TextXAlignment = Enum.TextXAlignment.Right
             xk.Input.TextSize = 12
             xk.Input.PlaceholderText = ""
@@ -3790,6 +3789,7 @@ local aa = {
                         Text = "Value",
                         TextSize = 12,
                         TextWrapped = true,
+                        Visible = false,
                         TextXAlignment = Enum.TextXAlignment.Right,
                         BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                         BackgroundTransparency = 1,
@@ -3857,6 +3857,17 @@ local aa = {
                 end
             )
             ah.AddSignal(
+                xk.Input:GetPropertyChangedSignal "Text",
+                function()
+                    if game:GetService "UserInputService":GetFocusedTextBox() then
+                        if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
+                            xk.Input.Text = 0
+                        end
+                        h:SetValue(xk.Input.Text)
+                    end
+                end
+            )
+            ah.AddSignal(
                 j.LockButton:GetPropertyChangedSignal "Visible",
                 function()
                     h.IsLocked = j.LockButton.Visible
@@ -3870,10 +3881,15 @@ local aa = {
                 if not g.Reseting and j.IsLocked then
                     return
                 end
-                p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
-                k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
-                m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
-                n.Text = tostring(p.Value)
+                if (not tonumber(xk.Input.Text)) and xk.Input.Text:len() > 0 then
+                    xk.Input.Text = p.Value
+                else
+                    p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
+                    k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
+                    m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
+                    n.Text = tostring(p.Value)
+                    xk.Input.Text = p.Value
+                end
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
             end
