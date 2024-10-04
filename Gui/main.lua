@@ -3736,7 +3736,7 @@ local aa = {
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
             local h, i, j, xk =
-                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding or 0, Callback = f.Callback or function(h)
+                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
                 ac(aj.Element)(f.Title, f.Description, d.Container, false),
@@ -3838,12 +3838,11 @@ local aa = {
             ah.AddSignal(
                 xk.Input.FocusLost,
                 function()
-                    if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
-                        xk.Input.Text = 0
+                    if h.Rounding == 0 and string.find(xk.Input.Text,".") then
+                       xk.Input.Text = string.split(xk.Input.Text,".")[1]
                     end
-                    if h.Rounding == 0 and xk.Input.Text:find(".") then
-                       local qd = xk.Input.Text:gsub(".","")
-                       xk.Input.Text = qd
+                    if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
+                       xk.Input.Text = 0
                     end
                     h:SetValue(xk.Input.Text)
                 end
