@@ -1435,7 +1435,7 @@ local aa = {
         local h, i = game:GetService "TextService", d.Parent.Parent
         local j, k = e(i.Packages.Flipper), e(i.Creator)
         local l = k.New
-        return function(m, n)
+        return function(m, n, xx)
             n = n or false
             local o = {}
             o.Input =
@@ -1452,7 +1452,7 @@ local aa = {
                     BackgroundTransparency = 1,
                     Size = UDim2.fromScale(1, 1),
                     Position = UDim2.fromOffset(10, 0),
-                    ThemeTag = {TextColor3 = "Text", PlaceholderColor3 = "SubText"}
+                    ThemeTag = {TextColor3 = xx and "SubText" or "Text", PlaceholderColor3 = "SubText"}
                 }
             )
             o.Container =
@@ -1503,7 +1503,7 @@ local aa = {
             local p = function()
                 local p, q = 2, o.Container.AbsoluteSize.X
                 if not o.Input:IsFocused() or o.Input.TextBounds.X <= q - 2 * p then
-                    o.Input.Position = UDim2.new(0, p, 0, 0)
+                    o.Input.Position = xx and UDim2.fromOffset(0, 0) or UDim2.new(0, p, 0, 0)
                 else
                     local r = o.Input.CursorPosition
                     if r ~= -1 then
@@ -3456,10 +3456,7 @@ local aa = {
             if h.Finished then
                 ai(
                     k.FocusLost,
-                    function(l)
-                        if not l then
-                            return
-                        end
+                    function()
                         h:SetValue(k.Text)
                     end
                 )
@@ -3738,17 +3735,28 @@ local aa = {
             assert(f.Min, "Slider - Missing minimum value.")
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
-            local h, i, j =
-                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
+            local h, i, j, xk =
+                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding or 0, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
-                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+                ac(aj.Element)(f.Title, f.Description, d.Container, false),
+                ac(aj.Textbox)(nil, nil, true)
             j.DescLabel.Size = UDim2.new(1, -170, 0, 14)
             h.SetTitle = j.SetTitle
             h.SetDesc = j.SetDesc
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            xk.Frame.Position = UDim2.new(0, -4, 0.5, 0)
+            xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
+            xk.Frame.Size = UDim2.new(0, 100, 0, 14)
+            xk.Frame.BackgroundTransparency = 1
+            xk.Input.Text = f.Default or "0"
+            xk.Input.TextXAlignment = Enum.TextXAlignment.Right
+            xk.Input.TextSize = 12
+            xk.Input.PlaceholderText = ""
+            xk.Indicator.Visible = false
+            xk.Frame:FindFirstChild("UIStroke").Transparency = 1
             local k =
                 ai(
                 "ImageLabel",
@@ -3760,7 +3768,7 @@ local aa = {
                     ThemeTag = {ImageColor3 = "Accent"}
                 }
             )
-            local l, m, n =
+            local l, m =
                 ai(
                     "Frame",
                     {BackgroundTransparency = 1, Position = UDim2.fromOffset(7, 0), Size = UDim2.new(1, -14, 1, 0)},
@@ -3770,22 +3778,6 @@ local aa = {
                     "Frame",
                     {Size = UDim2.new(0, 0, 1, 0), ThemeTag = {BackgroundColor3 = "Accent"}},
                     {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
-                ),
-                ai(
-                    "TextLabel",
-                    {
-                        FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                        Text = "Value",
-                        TextSize = 12,
-                        TextWrapped = true,
-                        TextXAlignment = Enum.TextXAlignment.Right,
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BackgroundTransparency = 1,
-                        Size = UDim2.new(0, 100, 0, 14),
-                        Position = UDim2.new(0, -4, 0.5, 0),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        ThemeTag = {TextColor3 = "SubText"}
-                    }
                 )
             local o =
                 ai(
@@ -3801,11 +3793,11 @@ local aa = {
                 {
                     ai("UICorner", {CornerRadius = UDim.new(1, 0)}),
                     ai("UISizeConstraint", {MaxSize = Vector2.new(150, math.huge)}),
-                    n,
                     m,
                     l
                 }
             )
+            xk.Frame.Parent = o
             ah.AddSignal(
                 k.InputBegan,
                 function(p)
@@ -3844,6 +3836,19 @@ local aa = {
                 end
             )
             ah.AddSignal(
+                xk.Input.FocusLost,
+                function()
+                    if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
+                        xk.Input.Text = 0
+                    end
+                    if h.Rounding == 0 and xk.Input.Text:find(".") then
+                       local qd = xk.Input.Text:gsub(".","")
+                       xk.Input.Text = qd
+                    end
+                    h:SetValue(xk.Input.Text)
+                end
+            )
+            ah.AddSignal(
                 j.LockButton:GetPropertyChangedSignal "Visible",
                 function()
                     h.IsLocked = j.LockButton.Visible
@@ -3857,10 +3862,14 @@ local aa = {
                 if not g.Reseting and j.IsLocked then
                     return
                 end
-                p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
-                k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
-                m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
-                n.Text = tostring(p.Value)
+                if (not tonumber(xk.Input.Text)) and xk.Input.Text:len() > 0 then
+                    xk.Input.Text = p.Value
+                else
+                    p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
+                    k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
+                    m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
+                    xk.Input.Text = p.Value
+                end
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
             end
