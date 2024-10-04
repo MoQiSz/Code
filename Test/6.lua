@@ -3456,10 +3456,7 @@ local aa = {
             if h.Finished then
                 ai(
                     k.FocusLost,
-                    function(l)
-                        if not l then
-                            return
-                        end
+                    function()
                         h:SetValue(k.Text)
                     end
                 )
@@ -3771,7 +3768,7 @@ local aa = {
                     ThemeTag = {ImageColor3 = "Accent"}
                 }
             )
-            local l, m, n =
+            local l, m =
                 ai(
                     "Frame",
                     {BackgroundTransparency = 1, Position = UDim2.fromOffset(7, 0), Size = UDim2.new(1, -14, 1, 0)},
@@ -3781,23 +3778,6 @@ local aa = {
                     "Frame",
                     {Size = UDim2.new(0, 0, 1, 0), ThemeTag = {BackgroundColor3 = "Accent"}},
                     {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
-                ),
-                ai(
-                    "TextLabel",
-                    {
-                        FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                        Text = "Value",
-                        TextSize = 12,
-                        TextWrapped = true,
-                        Visible = false,
-                        TextXAlignment = Enum.TextXAlignment.Right,
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BackgroundTransparency = 1,
-                        Size = UDim2.new(0, 100, 0, 14),
-                        Position = UDim2.new(0, -4, 0.5, 0),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        ThemeTag = {TextColor3 = "SubText"}
-                    }
                 )
             local o =
                 ai(
@@ -3813,7 +3793,6 @@ local aa = {
                 {
                     ai("UICorner", {CornerRadius = UDim.new(1, 0)}),
                     ai("UISizeConstraint", {MaxSize = Vector2.new(150, math.huge)}),
-                    n,
                     m,
                     l
                 }
@@ -3862,7 +3841,7 @@ local aa = {
                     if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
                         xk.Input.Text = 0
                     end
-                    if h.Rounding == 0 and xk.Input.Text:find(".") then
+                    if h.Rounding == 0 and string.find(xk.Input.Text, ".") then
                        local qd = xk.Input.Text:gsub(".","")
                        xk.Input.Text = qd
                     end
@@ -3889,7 +3868,6 @@ local aa = {
                     p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
                     k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
                     m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
-                    n.Text = tostring(p.Value)
                     xk.Input.Text = p.Value
                 end
                 g:SafeCallback(h.Callback, p.Value)
