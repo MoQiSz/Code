@@ -111,8 +111,7 @@ local aa = {
         local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
         local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
                 end
-        local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
-        w.Name = "CrazyDay"
+        local w = u("ScreenGui", {Name = "CrazyDay", Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
             Version = "1.1.0",
@@ -125,8 +124,6 @@ local aa = {
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
-            UseAcrylic = false,
-            Acrylic = false,
             Transparency = false,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
@@ -188,10 +185,6 @@ local aa = {
                 return
             end
             x.MinimizeKey = D.MinimizeKey
-            x.UseAcrylic = D.Acrylic
-            if D.Acrylic then
-                r.init()
-            end
             local E = e(s.Window) {
                 Parent = w,
                 Size = D.Size,
@@ -225,15 +218,7 @@ local aa = {
         end
         function x.ToggleAcrylic(C, D)
             if x.Window then
-                if x.UseAcrylic then
-                    x.Acrylic = D
-                    x.Window.AcrylicPaint.Model.Transparency = D and 0.98 or 1
-                    if D then
-                        r.Enable()
-                    else
-                        r.Disable()
-                    end
-                end
+                r.Disable()
             end
         end
         function x.ToggleTransparency(C, D)
@@ -476,14 +461,6 @@ local aa = {
                     )
                 }
             )
-            local m
-            if e(d.Parent.Parent).UseAcrylic then
-                m = i()
-                m.Frame.Parent = l.Frame
-                l.Model = m.Model
-                l.AddParent = m.AddParent
-                l.SetVisibility = m.SetVisibility
-            end
             return l
         end
     end,
@@ -1960,9 +1937,6 @@ local aa = {
                 Parent = v.Root,
                 Window = v
             }
-            if e(k).UseAcrylic then
-                v.AcrylicPaint.AddParent(v.Root)
-            end
             local BS =
             s(
                 "Frame",
@@ -3456,10 +3430,7 @@ local aa = {
             if h.Finished then
                 ai(
                     k.FocusLost,
-                    function(l)
-                        if not l then
-                            return
-                        end
+                    function()
                         h:SetValue(k.Text)
                     end
                 )
@@ -3771,7 +3742,7 @@ local aa = {
                     ThemeTag = {ImageColor3 = "Accent"}
                 }
             )
-            local l, m, n =
+            local l, m =
                 ai(
                     "Frame",
                     {BackgroundTransparency = 1, Position = UDim2.fromOffset(7, 0), Size = UDim2.new(1, -14, 1, 0)},
@@ -3781,23 +3752,6 @@ local aa = {
                     "Frame",
                     {Size = UDim2.new(0, 0, 1, 0), ThemeTag = {BackgroundColor3 = "Accent"}},
                     {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
-                ),
-                ai(
-                    "TextLabel",
-                    {
-                        FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                        Text = "Value",
-                        TextSize = 12,
-                        TextWrapped = true,
-                        Visible = false,
-                        TextXAlignment = Enum.TextXAlignment.Right,
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BackgroundTransparency = 1,
-                        Size = UDim2.new(0, 100, 0, 14),
-                        Position = UDim2.new(0, -4, 0.5, 0),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        ThemeTag = {TextColor3 = "SubText"}
-                    }
                 )
             local o =
                 ai(
@@ -3813,7 +3767,6 @@ local aa = {
                 {
                     ai("UICorner", {CornerRadius = UDim.new(1, 0)}),
                     ai("UISizeConstraint", {MaxSize = Vector2.new(150, math.huge)}),
-                    n,
                     m,
                     l
                 }
@@ -3857,14 +3810,15 @@ local aa = {
                 end
             )
             ah.AddSignal(
-                xk.Input:GetPropertyChangedSignal "Text",
+                xk.Input.FocusLost,
                 function()
-                    if game:GetService "UserInputService":GetFocusedTextBox() then
-                        if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
-                            xk.Input.Text = 0
-                        end
-                        h:SetValue(xk.Input.Text)
+                    if h.Rounding == 0 and string.find(xk.Input.Text,".") then
+                       xk.Input.Text = string.split(xk.Input.Text,".")[1]
                     end
+                    if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
+                       xk.Input.Text = 0
+                    end
+                    h:SetValue(xk.Input.Text)
                 end
             )
             ah.AddSignal(
@@ -3883,12 +3837,12 @@ local aa = {
                 end
                 if (not tonumber(xk.Input.Text)) and xk.Input.Text:len() > 0 then
                     xk.Input.Text = p.Value
+                else
+                    p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
+                    k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
+                    m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
+                    xk.Input.Text = p.Value
                 end
-                p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
-                k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
-                m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
-                n.Text = tostring(p.Value)
-                xk.Input.Text = p.Value
                 g:SafeCallback(h.Callback, p.Value)
                 g:SafeCallback(h.Changed, p.Value)
             end
