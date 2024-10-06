@@ -111,8 +111,7 @@ local aa = {
         local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
         local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
                 end
-        local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
-        w.Name = "CrazyDay"
+        local w = u("ScreenGui", {Name = "CrazyDay", Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
             Version = "1.1.0",
@@ -125,8 +124,6 @@ local aa = {
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
-            UseAcrylic = false,
-            Acrylic = false,
             Transparency = false,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
@@ -188,10 +185,6 @@ local aa = {
                 return
             end
             x.MinimizeKey = D.MinimizeKey
-            x.UseAcrylic = D.Acrylic
-            if D.Acrylic then
-                r.init()
-            end
             local E = e(s.Window) {
                 Parent = w,
                 Size = D.Size,
@@ -225,15 +218,7 @@ local aa = {
         end
         function x.ToggleAcrylic(C, D)
             if x.Window then
-                if x.UseAcrylic then
-                    x.Acrylic = D
-                    x.Window.AcrylicPaint.Model.Transparency = D and 0.98 or 1
-                    if D then
-                        r.Enable()
-                    else
-                        r.Disable()
-                    end
-                end
+                r.Disable()
             end
         end
         function x.ToggleTransparency(C, D)
@@ -476,14 +461,6 @@ local aa = {
                     )
                 }
             )
-            local m
-            if e(d.Parent.Parent).UseAcrylic then
-                m = i()
-                m.Frame.Parent = l.Frame
-                l.Model = m.Model
-                l.AddParent = m.AddParent
-                l.SetVisibility = m.SetVisibility
-            end
             return l
         end
     end,
@@ -1960,9 +1937,6 @@ local aa = {
                 Parent = v.Root,
                 Window = v
             }
-            if e(k).UseAcrylic then
-                v.AcrylicPaint.AddParent(v.Root)
-            end
             local BS =
             s(
                 "Frame",
