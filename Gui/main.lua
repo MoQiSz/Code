@@ -224,13 +224,13 @@ local aa = {
         function x.ToggleTransparency(C, D)
             x.Transparency = D
             if x.Window then
-                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.5 or 0
             end
             if x.NotifyHolder then
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.5 or 0
                         end
                     end
                 end
@@ -407,7 +407,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.35 or 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.5 or 0,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -2913,6 +2913,7 @@ local aa = {
                     Buttons = {},
                     Opened = false,
                     Type = "Dropdown",
+                    Text = "",
                     Callback = j.Callback or function()
                         end
                 },
@@ -3147,6 +3148,7 @@ local aa = {
                     D = l.Value or ""
                 end
                 n.Text = (D == "" and "--" or D)
+                l.Text = n.Text
             end
             function l.GetActiveValues(B)
                 if j.Multi then
