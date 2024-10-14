@@ -194,62 +194,105 @@ local SaveManager = {} do
 			Description = nil,
 			Default = true
 		})
+		do
+			self:Load("Configuration")
+		end
 
 		section:AddButton({
-            Title = "Reset Configuration",
-            Callback = function()
-				self.Library.Window:Dialog({
-					Title = "Configuration",
-					Content = "Are you sure you want to reset the configuration?",
-					Buttons = {
-						{Title = "Yes", Callback = function()
-							for idx, option in next, SaveManager.Options do
-								if self.Ignore[idx] then continue end
-								self.Library.Reseting = true
-								if option.Type == "Dropdown" then
-									if option.Multi then
-										local B = {}
-										for x = 1, #option.Default do
-											local D = option.Default[x]
-											B[D] = true
+			Title = "Reset Configuration",
+			Callback = function()
+				self.Library.Window:Dialog(
+					{
+						Title = "Configuration",
+						Content = "Are you sure you want to reset the configuration?",
+						Buttons =
+						{
+							{
+								Title = "Yes", Callback = function()
+									self.Library.Reseting = true
+									for n , c in next, SaveManager.Options do
+										if self.Ignore[n] then
+											continue
 										end
-										option:SetValue(B)
-									else
-										option:SetValue(option.Default)
+										if c.Type == "Dropdown" and c.Multi then
+											local o = {}
+											for x = 1,#c.Default do
+												o[c.Default[x]] = true
+											end
+											c:SetValue(o)
+										elseif (c.Type == "Dropdown" and not c.Multi) or c.Type == "Toggle" or c.Type == "Slider" or c.Type == "Input" then
+											c:SetValue(c.Default)
+										elseif c.Type == "Keybind" then
+											c:SetValue(c.Default,c.Mode)
+										elseif c.Type == "Colorpicker" then
+											c:SetValueRGB(c.Default)
+										end
 									end
-								elseif option.Type == "Toggle" then
-										option:SetValue(option.Default)
-								elseif option.Type == "Slider" then
-										option:SetValue(option.Default)
-								elseif option.Type == "Input" then
-										option:SetValue(option.Default)
-								elseif option.Type == "Keybind" then
-										option:SetValue(option.Default, option.Mode)
-								elseif option.Type == "Colorpicker" then
-										option:SetValueRGB(option.Default)
 								end
-							end
-							self.Library.Reseting = false
-						end},
-						{Title = "No"}
+							},
+							{Title = "No"}
+						}
 					}
-				})
-            end
-        })
+				)
+			end
+		})
 
-		self:Load("Configuration")
-		for idx, val in next, SaveManager.Options do
-			if self.Ignore[idx] then continue end
-			if idx == "Auto Save" then
-				val:OnChanged(function (Value)
-					self:Save("Configuration")
-				end)
-			else
-				val:OnChanged(function (Value)
-					if SaveManager.Options["Auto Save"].Value then
-						self:Save("Configuration")
+		if setmetatable then
+			setmetatable(SaveManager.Options,{
+				__newindex = function(t,n,c)
+					if not c.Save and c.OnChanged and n ~= "Auto Save" then
+						   c.Save =
+						   {
+								c:OnChanged(
+									function()
+										local o = SaveManager.Options
+										if o["Auto Save"] and o["Auto Save"].Value == false then
+										else
+											self:Save("Configuration")
+										end
+									end
+								)
+						   }
+					elseif not c.Save and c.OnChanged and n == "Auto Save" then
+						   c.Save =
+						   {
+								c:OnChanged(
+									function()
+										self:Save("Configuration")
+									end
+								)
+						   }
 					end
-				end)
+				end
+			})
+		end
+
+		for n , c in next, SaveManager.Options do
+			if self.Ignore[n] then
+				continue
+			end
+			if not c.Save and c.OnChanged and n ~= "Auto Save" then
+				c.Save =
+				{
+					c:OnChanged(
+						function()
+							local o = SaveManager.Options
+							if o["Auto Save"] and o["Auto Save"].Value == false then
+							else
+								self:Save("Configuration")
+							end
+						end
+					)
+				}
+			elseif not c.Save and c.OnChanged and n == "Auto Save" then
+				c.Save =
+				{
+					c:OnChanged(
+						function()
+							self:Save("Configuration")
+						end
+					)
+				}
 			end
 		end
 	end
@@ -258,4 +301,3 @@ local SaveManager = {} do
 end
 
 return SaveManager
-
