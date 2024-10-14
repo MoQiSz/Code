@@ -145,7 +145,7 @@ local SaveManager = {} do
 		if (not name) then
 			return false, "no config file is selected"
 		end
-		
+
 		local file = self.Folder .. "/" .. name .. ".json"
 		if not isfile(file) then return false, "invalid file" end
 
@@ -154,7 +154,16 @@ local SaveManager = {} do
 
 		for _, option in next, decoded.objects do
 			if self.Parser[option.type] then
-				task.spawn(function() self.Parser[option.type].Load(option.idx, option) end) -- task.spawn() so the config loading wont get stuck.
+				task.spawn(
+					function()
+						if not SaveManager.Options[option.idx] then
+							repeat
+								task.wait()
+							until SaveManager.Options[option.idx]
+						end
+						self.Parser[option.type].Load(option.idx, option)
+					end
+				)
 			end
 		end
 
@@ -162,7 +171,7 @@ local SaveManager = {} do
 	end
 
 	function SaveManager:IgnoreThemeSettings()
-		self:SetIgnoreIndexes({ 
+		self:SetIgnoreIndexes({
 			"InterfaceTheme", "AcrylicToggle", "TransparentToggle", "MenuKeybind" , "BlackScreenToggle"
 		})
 	end
@@ -189,7 +198,7 @@ local SaveManager = {} do
 		assert(self.Library, "Must set SaveManager.Library")
 
 		local section = tab:AddSection("Configuration")
-		section:AddToggle("Auto Save", {
+		section:AddToggle("Auto Save Configuration", {
 			Title = "Auto Save",
 			Description = nil,
 			Default = true
@@ -240,20 +249,20 @@ local SaveManager = {} do
 		if setmetatable then
 			setmetatable(SaveManager.Options,{
 				__newindex = function(t,n,c)
-					if not c.Save and c.OnChanged and n ~= "Auto Save" then
+					if not c.Save and c.OnChanged and n ~= "Auto Save Configuration" then
 						   c.Save =
 						   {
 								c:OnChanged(
 									function()
 										local o = SaveManager.Options
-										if o["Auto Save"] and o["Auto Save"].Value == false then
+										if o["Auto Save Configuration"] and  not o["Auto Save Configuration"].Value then
 										else
 											self:Save("Configuration")
 										end
 									end
 								)
 						   }
-					elseif not c.Save and c.OnChanged and n == "Auto Save" then
+					elseif not c.Save and c.OnChanged and n == "Auto Save Configuration" then
 						   c.Save =
 						   {
 								c:OnChanged(
@@ -271,20 +280,20 @@ local SaveManager = {} do
 			if self.Ignore[n] then
 				continue
 			end
-			if not c.Save and c.OnChanged and n ~= "Auto Save" then
+			if not c.Save and c.OnChanged and n ~= "Auto Save Configuration" then
 				c.Save =
 				{
 					c:OnChanged(
 						function()
 							local o = SaveManager.Options
-							if o["Auto Save"] and o["Auto Save"].Value == false then
+							if o["Auto Save Configuration"] and o["Auto Save Configuration"].Value == false then
 							else
 								self:Save("Configuration")
 							end
 						end
 					)
 				}
-			elseif not c.Save and c.OnChanged and n == "Auto Save" then
+			elseif not c.Save and c.OnChanged and n == "Auto Save Configuration" then
 				c.Save =
 				{
 					c:OnChanged(
