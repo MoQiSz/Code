@@ -111,7 +111,17 @@ local aa = {
         local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
         local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
                 end
-        local w = u("ScreenGui", {Name = "CrazyDay", Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
+        local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        local length = 15
+        local randomString = ""
+        local charTable = {}
+        for cxw in chars:gmatch "." do
+            table.insert(charTable, cxw)
+        end
+        for xi = 1, length do
+            randomString = randomString .. charTable[math.random(1, #charTable)]
+        end
+        local w = u("ScreenGui", {Name = randomString, Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
             Version = "1.1.0",
@@ -5752,6 +5762,9 @@ local aa = {
     end
 }
 do
+    if not loadedcrazyday then
+        loadedcrazyday = true
+    end
     local ab, ac, ad, ae, af, ag, ah, aj, c, e, f, g, h, i, j, k =
         task,
         setmetatable,
@@ -5995,9 +6008,6 @@ do
         for N, O in ag, E do
             if O.ClassName == "ModuleScript" and O.Name == "MainModule" then
                 M = O
-                if not loadedcrazyday then
-                    loadedcrazyday = true
-                end
                 break
             end
         end
