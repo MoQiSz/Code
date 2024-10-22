@@ -121,6 +121,9 @@ local aa = {
         for xi = 1, length do
             randomString = randomString .. charTable[math.random(1, #charTable)]
         end
+        if not loadedcrazyday then
+            loadedcrazyday = randomString
+        end
         local w = u("ScreenGui", {Name = randomString, Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
@@ -5762,9 +5765,6 @@ local aa = {
     end
 }
 do
-    if not loadedcrazyday then
-        loadedcrazyday = true
-    end
     local ab, ac, ad, ae, af, ag, ah, aj, c, e, f, g, h, i, j, k =
         task,
         setmetatable,
