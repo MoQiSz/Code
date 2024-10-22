@@ -121,9 +121,6 @@ local aa = {
         for xi = 1, length do
             randomString = randomString .. charTable[math.random(1, #charTable)]
         end
-        if not loadedcrazyday then
-            loadedcrazyday = randomString
-        end
         local w = u("ScreenGui", {Name = randomString, Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
@@ -227,8 +224,8 @@ local aa = {
                 game:GetService "RunService":Set3dRenderingEnabled(true)
                 p.Disconnect()
                 x.GUI:Destroy()
-                if loadedcrazyday then
-                    loadedcrazyday = nil
+                if getgenv then
+                    getgenv().LoadedFluentCrazyDay = nil
                 end
             end
         end
@@ -256,7 +253,7 @@ local aa = {
             return t:New(D)
         end
         if getgenv then
-            getgenv().Fluent = x
+            getgenv().LoadedFluentCrazyDay = x
         end
         return x
     end,
