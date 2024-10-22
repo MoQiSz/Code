@@ -214,6 +214,9 @@ local aa = {
                 game:GetService "RunService":Set3dRenderingEnabled(true)
                 p.Disconnect()
                 x.GUI:Destroy()
+                if loadedcrazyday then
+                    loadedcrazyday = nil
+                end
             end
         end
         function x.ToggleAcrylic(C, D)
@@ -5992,6 +5995,9 @@ do
         for N, O in ag, E do
             if O.ClassName == "ModuleScript" and O.Name == "MainModule" then
                 M = O
+                if not loadedcrazyday then
+                    loadedcrazyday = true
+                end
                 break
             end
         end
