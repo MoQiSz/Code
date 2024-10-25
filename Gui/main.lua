@@ -3160,7 +3160,7 @@ local aa = {
                 else
                     D = l.Value or ""
                 end
-                n.Text = (D == "" and "--" or D)
+                n.Text = (D == "" and "" or D)
                 l.Text = n.Text
             end
             function l.GetActiveValues(B)
@@ -3288,6 +3288,7 @@ local aa = {
                     if L.TextBounds.X >= 148 then
                         L.TextScaled = true
                     end
+                    task.wait()
                 end
                 x = 0
                 for J, K in next, D do
@@ -3296,6 +3297,7 @@ local aa = {
                             x = J.ButtonLabel.TextBounds.X
                         end
                     end
+                    task.wait()
                 end
                 x = x + 30
                 z()
