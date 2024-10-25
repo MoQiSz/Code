@@ -3288,7 +3288,9 @@ local aa = {
                     if L.TextBounds.X >= 148 then
                         L.TextScaled = true
                     end
-                    task.wait()
+                    if #C >= 8 then
+                        task.wait()
+                    end
                 end
                 x = 0
                 for J, K in next, D do
@@ -3297,7 +3299,6 @@ local aa = {
                             x = J.ButtonLabel.TextBounds.X
                         end
                     end
-                    task.wait()
                 end
                 x = x + 30
                 z()
