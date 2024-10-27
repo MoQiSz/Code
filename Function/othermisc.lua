@@ -1,4 +1,7 @@
 local func = {}
+    function func:FormatLocation(text, path)
+        return string.format(path and path or "CrazyDay/Anime Vanguards/Macro/".."%s.json", text)
+    end
     function func:NumberToString(num)
         num = tostring(num)
         if #num > 3 and #num < 10 then
