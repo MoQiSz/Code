@@ -31,6 +31,7 @@ local a, b = {
                     {23, "ModuleScript", {"Input"}},
                     {20, "ModuleScript", {"Button"}},
                     {25, "ModuleScript", {"Paragraph"}},
+                    {101, "ModuleScript", {"MiniParagraph"}},
                     {22, "ModuleScript", {"Dropdown"}},
                     {26, "ModuleScript", {"Slider"}},
                     {24, "ModuleScript", {"Keybind"}}
@@ -778,7 +779,22 @@ local aa = {
                     ThemeTag = {TextColor3 = "Text"}
                 }
             )
-            q.DescLabel =
+            if p and p == "MiniParagraph" then
+                q.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+                    Parent = o,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Text = "",
+                    LayoutOrder = 7
+                }
+                )
+            else
+                q.DescLabel =
                 k(
                 "TextLabel",
                 {
@@ -824,7 +840,7 @@ local aa = {
                     Color = Color3.fromRGB(0, 0, 0),
                     ThemeTag = {Color = "ElementBorder"}
                 }
-            )
+                )
             q.Frame =
                 k(
                 "TextButton",
@@ -837,97 +853,114 @@ local aa = {
                     Text = "",
                     LayoutOrder = 7,
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
-                },
-                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
-            )
-            q.LockButton =
-            k(
-                "TextButton",
-                {
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 250,
-                    Size = UDim2.fromScale(1, 1),
-                    Parent = q.Frame,
-                    Visible = false
                 }
-            )
-            q.Locked =
-            k(
-                "Frame",
-                {
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 135,
-                    Size = UDim2.fromScale(1, 1),
-                    Parent = q.Frame,
-                    Visible = true
-                },
-                {
-                    k("UICorner",{CornerRadius = UDim.new(0, 4)}),
-                    k(
-                        "ImageLabel",
-                        {
-                            BackgroundTransparency = 1,
-                            Size = UDim2.fromOffset(0, 0),
-                            Position = UDim2.new(0.5, 0, 0.5, 0),
-                            AnchorPoint = Vector2.new(0.5, 0.5),
-                            Image = "http://www.roblox.com/asset/?id=18855086552",
-                            ImageColor3 = Color3.fromRGB(0, 0, 0)
-                        }
-                    )
-                }
-            )
+                )
+            end
             function q.SetTitle(r, s)
                 q.TitleLabel.Text = s
             end
-            function q.SetDesc(r, s)
-                if s == nil then
-                    s = ""
+            if p and p == "MiniParagraph" then
+                q.Frame.BackgroundTransparency = 1
+                q.TitleLabel.Parent = q.Frame
+                q.IsLocked = nil
+            else
+                q.Border.Parent = q.Frame
+                q.LabelHolder.Parent = q.Frame
+                local UICornerQ =
+                k(
+                    "UICorner",
+                    {
+                        CornerRadius = UDim.new(0, 4),
+                        Parent = q.Frame
+                    }
+                )
+                q.LockButton =
+                k(
+                    "TextButton",
+                    {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ZIndex = 250,
+                        Size = UDim2.fromScale(1, 1),
+                        Parent = q.Frame,
+                        Visible = false
+                    }
+                )
+                q.Locked =
+                k(
+                    "Frame",
+                    {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ZIndex = 135,
+                        Size = UDim2.fromScale(1, 1),
+                        Parent = q.Frame,
+                        Visible = true
+                    },
+                    {
+                        k("UICorner",{CornerRadius = UDim.new(0, 4)}),
+                        k(
+                            "ImageLabel",
+                            {
+                                BackgroundTransparency = 1,
+                                Size = UDim2.fromOffset(0, 0),
+                                Position = UDim2.new(0.5, 0, 0.5, 0),
+                                AnchorPoint = Vector2.new(0.5, 0.5),
+                                Image = "http://www.roblox.com/asset/?id=18855086552",
+                                ImageColor3 = Color3.fromRGB(0, 0, 0)
+                            }
+                        )
+                    }
+                )
+                function q.SetDesc(r, s)
+                    if s == nil then
+                        s = ""
+                    end
+                    if s == "" then
+                        q.DescLabel.Visible = false
+                    else
+                        q.DescLabel.Visible = true
+                    end
+                    q.DescLabel.Text = s
+                    if q.IsLocked then ts:Create(q.Locked.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1), {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}):Play() end
                 end
-                if s == "" then
-                    q.DescLabel.Visible = false
-                else
-                    q.DescLabel.Visible = true
+                function q.Lock(r)
+                    q.Locked.ImageLabel.Size = UDim2.fromOffset(0, 0)
+                    ts:Create(
+                        q.Locked,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {BackgroundTransparency = 0.5}
+                    ):Play()
+                    ts:Create(
+                        q.Locked.ImageLabel,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}
+                    ):Play()
+                    q.IsLocked = true
+                    q.LockButton.Visible = true
                 end
-                q.DescLabel.Text = s
-                if q.IsLocked then ts:Create(q.Locked.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1), {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}):Play() end
-            end
-            function q.Lock(r)
-                q.Locked.ImageLabel.Size = UDim2.fromOffset(0, 0)
-                ts:Create(
-                    q.Locked,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {BackgroundTransparency = 0.5}
-                ):Play()
-                ts:Create(
-                    q.Locked.ImageLabel,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}
-                ):Play()
-                q.IsLocked = true
-                q.LockButton.Visible = true
-            end
-            function q.UnLock(r)
-                ts:Create(
-                    q.Locked,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {BackgroundTransparency = 1}
-                ):Play()
-                ts:Create(
-                    q.Locked.ImageLabel,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {Size = UDim2.fromOffset(0, 0)}
-                ):Play()
-                q.IsLocked = false
-                q.LockButton.Visible = false
+                function q.UnLock(r)
+                    ts:Create(
+                        q.Locked,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {BackgroundTransparency = 1}
+                    ):Play()
+                    ts:Create(
+                        q.Locked.ImageLabel,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {Size = UDim2.fromOffset(0, 0)}
+                    ):Play()
+                    q.IsLocked = false
+                    q.LockButton.Visible = false
+                end 
+
+                q:SetDesc(n)
             end
             function q.Destroy(r)
                 q.Frame:Destroy()
             end
             q:SetTitle(m)
-            q:SetDesc(n)
-            if p then
+            if p and p ~= "MiniParagraph" then
                 local r, s, t =
                     h.Themes,
                     j.SpringMotor(
@@ -3709,6 +3742,21 @@ local aa = {
             local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
             e.Frame.BackgroundTransparency = 0.92
             e.Border.Transparency = 0.6
+            return e
+        end
+        return aj
+    end,
+    [101] = function()
+        local aa, ab, ac, ad, ae = b(101)
+        local af = ab.Parent.Parent
+        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+        aj.__index = aj
+        aj.__type = "MiniParagraph"
+        function aj.New(c, d)
+            assert(d.Title, "MiniParagraph - Missing Title")
+            local e = ac(ag.Element)(d.Title, "", aj.Container, "MiniParagraph")
+            e.Frame.BackgroundTransparency = 1
+            e.TitleLabel.Parent = e.Frame
             return e
         end
         return aj
