@@ -147,7 +147,6 @@ local aa = {
             end
             local A, B = pcall(z, ...)
             if not A then
-                error(B,9)
                 local C, D = B:find ":%d+: "
                 if not D then
                     return x:Notify {Title = "Interface", Content = "Callback error", SubContent = B, Duration = 5}
@@ -1384,10 +1383,16 @@ local aa = {
             x.Container = x.ContainerFrame
             x.ScrollFrame = x.Container
             function x.AddSection(z, A)
-                local B, C = {Type = "Section"}, e(n.Section)(A, x.Container)
+                local B, C = {Type = "Section"}, e(n.Section)(A.Title, x.Container)
                 B.Container = C.Container
                 B.ScrollFrame = x.Container
                 setmetatable(B, v)
+                if A.MiniSection then
+                    local BB, CC = {Type = "Section"}, e(n.Section)(A.MiniSection.Title, B.ScrollFrame)
+                    BB.Container = CC.Container
+                    BB.ScrollFrame = B.ScrollFrame
+                    setmetatable(BB, v)
+                end
                 return B
             end
             setmetatable(x, v)
@@ -3161,7 +3166,7 @@ local aa = {
                 else
                     D = l.Value or ""
                 end
-                n.Text = (D == "" and "--" or D)
+                n.Text = (D == "" and "" or D)
                 l.Text = n.Text
             end
             function l.GetActiveValues(B)
@@ -3288,6 +3293,9 @@ local aa = {
                     D[M] = J
                     if L.TextBounds.X >= 148 then
                         L.TextScaled = true
+                    end
+                    if #C >= 8 then
+                        task.wait()
                     end
                 end
                 x = 0
