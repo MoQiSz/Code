@@ -31,6 +31,7 @@ local a, b = {
                     {23, "ModuleScript", {"Input"}},
                     {20, "ModuleScript", {"Button"}},
                     {25, "ModuleScript", {"Paragraph"}},
+                    {51, "ModuleScript", {"MiniParagraph"}},
                     {22, "ModuleScript", {"Dropdown"}},
                     {26, "ModuleScript", {"Slider"}},
                     {24, "ModuleScript", {"Keybind"}}
@@ -111,8 +112,17 @@ local aa = {
         local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
         local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
                 end
-        local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
-        w.Name = "CrazyDay"
+        local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        local length = 15
+        local randomString = ""
+        local charTable = {}
+        for cxw in chars:gmatch "." do
+            table.insert(charTable, cxw)
+        end
+        for xi = 1, length do
+            randomString = randomString .. charTable[math.random(1, #charTable)]
+        end
+        local w = u("ScreenGui", {Name = randomString, Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
             Version = "1.1.0",
@@ -125,8 +135,6 @@ local aa = {
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
-            UseAcrylic = false,
-            Acrylic = false,
             Transparency = false,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
@@ -188,10 +196,6 @@ local aa = {
                 return
             end
             x.MinimizeKey = D.MinimizeKey
-            x.UseAcrylic = D.Acrylic
-            if D.Acrylic then
-                r.init()
-            end
             local E = e(s.Window) {
                 Parent = w,
                 Size = D.Size,
@@ -221,31 +225,26 @@ local aa = {
                 game:GetService "RunService":Set3dRenderingEnabled(true)
                 p.Disconnect()
                 x.GUI:Destroy()
+                if getgenv then
+                    getgenv().LoadedFluentCrazyDay = nil
+                end
             end
         end
         function x.ToggleAcrylic(C, D)
             if x.Window then
-                if x.UseAcrylic then
-                    x.Acrylic = D
-                    x.Window.AcrylicPaint.Model.Transparency = D and 0.98 or 1
-                    if D then
-                        r.Enable()
-                    else
-                        r.Disable()
-                    end
-                end
+                r.Disable()
             end
         end
         function x.ToggleTransparency(C, D)
             x.Transparency = D
             if x.Window then
-                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.5 or 0
             end
             if x.NotifyHolder then
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.5 or 0
                         end
                     end
                 end
@@ -255,7 +254,7 @@ local aa = {
             return t:New(D)
         end
         if getgenv then
-            getgenv().Fluent = x
+            getgenv().LoadedFluentCrazyDay = x
         end
         return x
     end,
@@ -422,7 +421,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.35 or 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.5 or 0,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -476,14 +475,6 @@ local aa = {
                     )
                 }
             )
-            local m
-            if e(d.Parent.Parent).UseAcrylic then
-                m = i()
-                m.Frame.Parent = l.Frame
-                l.Model = m.Model
-                l.AddParent = m.AddParent
-                l.SetVisibility = m.SetVisibility
-            end
             return l
         end
     end,
@@ -1960,9 +1951,6 @@ local aa = {
                 Parent = v.Root,
                 Window = v
             }
-            if e(k).UseAcrylic then
-                v.AcrylicPaint.AddParent(v.Root)
-            end
             local BS =
             s(
                 "Frame",
@@ -2939,6 +2927,7 @@ local aa = {
                     Buttons = {},
                     Opened = false,
                     Type = "Dropdown",
+                    Text = "",
                     Callback = j.Callback or function()
                         end
                 },
@@ -3172,7 +3161,8 @@ local aa = {
                 else
                     D = l.Value or ""
                 end
-                n.Text = (D == "" and "--" or D)
+                n.Text = (D == "" and "" or D)
+                l.Text = n.Text
             end
             function l.GetActiveValues(B)
                 if j.Multi then
@@ -3298,6 +3288,9 @@ local aa = {
                     D[M] = J
                     if L.TextBounds.X >= 148 then
                         L.TextScaled = true
+                    end
+                    if #C >= 8 then
+                        task.wait()
                     end
                 end
                 x = 0
@@ -3717,6 +3710,27 @@ local aa = {
             local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
             e.Frame.BackgroundTransparency = 0.92
             e.Border.Transparency = 0.6
+            return e
+        end
+        return aj
+    end,
+    [51] = function()
+        local aa, ab, ac, ad, ae = b(51)
+        local af = ab.Parent.Parent
+        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+        aj.__index = aj
+        aj.__type = "MiniParagraph"
+        function aj.New(c, d)
+            assert(d.Title, "MiniParagraph - Missing Title")
+            local e = ac(ag.Element)(d.Title, "", aj.Container, false)
+            e.Frame.BackgroundTransparency = 1
+            e.TitleLabel.Parent = e.Frame
+            e.Border.Transparency = 0.6
+            for nc, cn in next, e do
+                if not table.find({"Frame", "TitleLabel"}, tostring(nc)) then
+                    cn.Destroy()
+                end
+            end
             return e
         end
         return aj
