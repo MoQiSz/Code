@@ -853,7 +853,8 @@ local aa = {
                     Text = "",
                     LayoutOrder = 7,
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
-                }
+                },
+                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
                 )
             end
             function q.SetTitle(r, s)
@@ -864,16 +865,6 @@ local aa = {
                 q.TitleLabel.Parent = q.Frame
                 q.IsLocked = nil
             else
-                q.Border.Parent = q.Frame
-                q.LabelHolder.Parent = q.Frame
-                local UICornerQ =
-                k(
-                    "UICorner",
-                    {
-                        CornerRadius = UDim.new(0, 4),
-                        Parent = q.Frame
-                    }
-                )
                 q.LockButton =
                 k(
                     "TextButton",
