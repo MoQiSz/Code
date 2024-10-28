@@ -779,7 +779,22 @@ local aa = {
                     ThemeTag = {TextColor3 = "Text"}
                 }
             )
-            q.DescLabel =
+            if p and p == "MiniParagraph" then
+                q.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+                    Parent = o,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Text = "",
+                    LayoutOrder = 7
+                }
+                )
+            else
+                q.DescLabel =
                 k(
                 "TextLabel",
                 {
@@ -825,7 +840,7 @@ local aa = {
                     Color = Color3.fromRGB(0, 0, 0),
                     ThemeTag = {Color = "ElementBorder"}
                 }
-            )
+                )
             q.Frame =
                 k(
                 "TextButton",
@@ -840,45 +855,8 @@ local aa = {
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
                 },
                 {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
-            )
-            q.LockButton =
-            k(
-                "TextButton",
-                {
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 250,
-                    Size = UDim2.fromScale(1, 1),
-                    Parent = q.Frame,
-                    Visible = false
-                }
-            )
-            q.Locked =
-            k(
-                "Frame",
-                {
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 135,
-                    Size = UDim2.fromScale(1, 1),
-                    Parent = q.Frame,
-                    Visible = true
-                },
-                {
-                    k("UICorner",{CornerRadius = UDim.new(0, 4)}),
-                    k(
-                        "ImageLabel",
-                        {
-                            BackgroundTransparency = 1,
-                            Size = UDim2.fromOffset(0, 0),
-                            Position = UDim2.new(0.5, 0, 0.5, 0),
-                            AnchorPoint = Vector2.new(0.5, 0.5),
-                            Image = "http://www.roblox.com/asset/?id=18855086552",
-                            ImageColor3 = Color3.fromRGB(0, 0, 0)
-                        }
-                    )
-                }
-            )
+                )
+            end
             function q.SetTitle(r, s)
                 q.TitleLabel.Text = s
             end
@@ -886,11 +864,45 @@ local aa = {
                 q.Frame.BackgroundTransparency = 1
                 q.TitleLabel.Parent = q.Frame
                 q.IsLocked = nil
-                q.Border:Destroy()
-                a.Locked:Destroy()
-                q.LockButton:Destroy()
-                q.LabelHolder:Destroy()
             else
+                q.LockButton =
+                k(
+                    "TextButton",
+                    {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ZIndex = 250,
+                        Size = UDim2.fromScale(1, 1),
+                        Parent = q.Frame,
+                        Visible = false
+                    }
+                )
+                q.Locked =
+                k(
+                    "Frame",
+                    {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ZIndex = 135,
+                        Size = UDim2.fromScale(1, 1),
+                        Parent = q.Frame,
+                        Visible = true
+                    },
+                    {
+                        k("UICorner",{CornerRadius = UDim.new(0, 4)}),
+                        k(
+                            "ImageLabel",
+                            {
+                                BackgroundTransparency = 1,
+                                Size = UDim2.fromOffset(0, 0),
+                                Position = UDim2.new(0.5, 0, 0.5, 0),
+                                AnchorPoint = Vector2.new(0.5, 0.5),
+                                Image = "http://www.roblox.com/asset/?id=18855086552",
+                                ImageColor3 = Color3.fromRGB(0, 0, 0)
+                            }
+                        )
+                    }
+                )
                 function q.SetDesc(r, s)
                     if s == nil then
                         s = ""
@@ -932,12 +944,13 @@ local aa = {
                     q.IsLocked = false
                     q.LockButton.Visible = false
                 end 
+
+                q:SetDesc(n)
             end
             function q.Destroy(r)
                 q.Frame:Destroy()
             end
             q:SetTitle(m)
-            q:SetDesc(n)
             if p and p ~= "MiniParagraph" then
                 local r, s, t =
                     h.Themes,
@@ -6034,6 +6047,8 @@ do
         for N, O in ag, E do
             if O.ClassName == "ModuleScript" and O.Name == "MainModule" then
                 M = O
+                task.wait(2)
+                warn(tostring(O))
                 break
             end
         end
