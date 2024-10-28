@@ -2429,6 +2429,7 @@ local aa = {
             )
             return o
         end
+        task.wait()
         return l
     end,
     [21] = function()
@@ -2924,6 +2925,7 @@ local aa = {
             y.Options[w] = z
             return z
         end
+        task.wait()
         return u
     end,
     [22] = function()
@@ -3147,13 +3149,6 @@ local aa = {
                 u.Size = UDim2.fromScale(1, 0.6)
                 v.Visible = false
                 search.Input.Text = ""
-            end
-            function l.Close(B)
-                l.Opened = false
-                A.ScrollingEnabled = true
-                u.Size = UDim2.fromScale(1, 0.6)
-                v.Visible = false
-                if j.Search then se.Input.Text = "" end
             end
             function l.UpdateText(B)
                 for DI, CV in next, t:GetChildren() do
@@ -3413,6 +3408,7 @@ local aa = {
             k.Options[i] = l
             return l
         end
+        task.wait()
         return g
     end,
     [23] = function()
@@ -3501,6 +3497,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [24] = function()
@@ -3719,6 +3716,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [25] = function()
@@ -3735,6 +3733,7 @@ local aa = {
             e.Border.Transparency = 0.6
             return e
         end
+        task.wait()
         return aj
     end,
     [101] = function()
@@ -3750,6 +3749,7 @@ local aa = {
             e.TitleLabel.Parent = e.Frame
             return e
         end
+        task.wait()
         return aj
     end,
     [26] = function()
@@ -3911,6 +3911,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [27] = function()
@@ -4003,6 +4004,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [28] = function()
