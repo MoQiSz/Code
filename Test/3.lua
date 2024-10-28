@@ -780,6 +780,19 @@ local aa = {
                 }
             )
             if p and p == "MiniParagraph" then
+                q.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+                    Parent = o,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Text = "",
+                    LayoutOrder = 7
+                }
+                )
             else
                 q.DescLabel =
                 k(
@@ -828,7 +841,6 @@ local aa = {
                     ThemeTag = {Color = "ElementBorder"}
                 }
                 )
-            end
             q.Frame =
                 k(
                 "TextButton",
@@ -841,8 +853,10 @@ local aa = {
                     Text = "",
                     LayoutOrder = 7,
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
-                }
-            )
+                },
+                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
+                )
+            end
             function q.SetTitle(r, s)
                 q.TitleLabel.Text = s
             end
@@ -851,16 +865,6 @@ local aa = {
                 q.TitleLabel.Parent = q.Frame
                 q.IsLocked = nil
             else
-                q.Border.Parent = q.Frame
-                q.LabelHolder.Parent = q.Frame
-                local UICornerQ =
-                k(
-                    "UICorner",
-                    {
-                        CornerRadius = UDim.new(0, 4),
-                        Parent = q.Frame
-                    }
-                )
                 q.LockButton =
                 k(
                     "TextButton",
@@ -940,12 +944,13 @@ local aa = {
                     q.IsLocked = false
                     q.LockButton.Visible = false
                 end 
+
+                q:SetDesc(n)
             end
             function q.Destroy(r)
                 q.Frame:Destroy()
             end
             q:SetTitle(m)
-            q:SetDesc(n)
             if p and p ~= "MiniParagraph" then
                 local r, s, t =
                     h.Themes,
@@ -6035,6 +6040,8 @@ do
         return O, P, Q, U, V
     end
     for K, L in ag, v do
+        task.wait(1)
+        warn(tostring(L))
         o(J, L)
     end
     do
