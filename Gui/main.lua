@@ -3362,6 +3362,11 @@ local aa = {
                         l.Value = l.Values[C]
                     end
                 end
+                for E, F in next, t:GetChildren() do
+                    if F:IsA "TextButton" then
+                        F:Destroy()
+                    end
+                end
                 l:Display()
                 k:SafeCallback(l.Callback, l.Value)
                 k:SafeCallback(l.Changed, l.Value)
