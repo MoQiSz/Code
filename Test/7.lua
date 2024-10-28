@@ -31,6 +31,7 @@ local a, b = {
                     {23, "ModuleScript", {"Input"}},
                     {20, "ModuleScript", {"Button"}},
                     {25, "ModuleScript", {"Paragraph"}},
+                    {101, "ModuleScript", {"MiniParagraph"}},
                     {22, "ModuleScript", {"Dropdown"}},
                     {26, "ModuleScript", {"Slider"}},
                     {24, "ModuleScript", {"Keybind"}}
@@ -111,8 +112,17 @@ local aa = {
         local p, q, r, s = e(o.Creator), e(o.Elements), e(o.Acrylic), o.Components
         local t, u, v = e(s.Notification), p.New, protectgui or (syn and syn.protect_gui) or function()
                 end
-        local w = u("ScreenGui", {Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
-        w.Name = "CrazyDay"
+        local chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        local length = 15
+        local randomString = ""
+        local charTable = {}
+        for cxw in chars:gmatch "." do
+            table.insert(charTable, cxw)
+        end
+        for xi = 1, length do
+            randomString = randomString .. charTable[math.random(1, #charTable)]
+        end
+        local w = u("ScreenGui", {Name = randomString, Parent = i:IsStudio() and j.PlayerGui or game:GetService "CoreGui"})
         v(w)
         local x = {
             Version = "1.1.0",
@@ -125,8 +135,6 @@ local aa = {
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
-            UseAcrylic = false,
-            Acrylic = false,
             Transparency = false,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
@@ -188,10 +196,6 @@ local aa = {
                 return
             end
             x.MinimizeKey = D.MinimizeKey
-            x.UseAcrylic = D.Acrylic
-            if D.Acrylic then
-                r.init()
-            end
             local E = e(s.Window) {
                 Parent = w,
                 Size = D.Size,
@@ -221,31 +225,26 @@ local aa = {
                 game:GetService "RunService":Set3dRenderingEnabled(true)
                 p.Disconnect()
                 x.GUI:Destroy()
+                if getgenv then
+                    getgenv().LoadedFluentCrazyDay = nil
+                end
             end
         end
         function x.ToggleAcrylic(C, D)
             if x.Window then
-                if x.UseAcrylic then
-                    x.Acrylic = D
-                    x.Window.AcrylicPaint.Model.Transparency = D and 0.98 or 1
-                    if D then
-                        r.Enable()
-                    else
-                        r.Disable()
-                    end
-                end
+                r.Disable()
             end
         end
         function x.ToggleTransparency(C, D)
             x.Transparency = D
             if x.Window then
-                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.35 or 0
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.5 or 0
             end
             if x.NotifyHolder then
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.35 or 0
+                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.5 or 0
                         end
                     end
                 end
@@ -255,7 +254,7 @@ local aa = {
             return t:New(D)
         end
         if getgenv then
-            getgenv().Fluent = x
+            getgenv().LoadedFluentCrazyDay = x
         end
         return x
     end,
@@ -422,7 +421,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.35 or 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.5 or 0,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -476,14 +475,6 @@ local aa = {
                     )
                 }
             )
-            local m
-            if e(d.Parent.Parent).UseAcrylic then
-                m = i()
-                m.Frame.Parent = l.Frame
-                l.Model = m.Model
-                l.AddParent = m.AddParent
-                l.SetVisibility = m.SetVisibility
-            end
             return l
         end
     end,
@@ -788,7 +779,22 @@ local aa = {
                     ThemeTag = {TextColor3 = "Text"}
                 }
             )
-            q.DescLabel =
+            if p and p == "MiniParagraph" then
+                q.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+                    Parent = o,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Text = "",
+                    LayoutOrder = 7
+                }
+                )
+            else
+                q.DescLabel =
                 k(
                 "TextLabel",
                 {
@@ -834,7 +840,7 @@ local aa = {
                     Color = Color3.fromRGB(0, 0, 0),
                     ThemeTag = {Color = "ElementBorder"}
                 }
-            )
+                )
             q.Frame =
                 k(
                 "TextButton",
@@ -847,97 +853,114 @@ local aa = {
                     Text = "",
                     LayoutOrder = 7,
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
-                },
-                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
-            )
-            q.LockButton =
-            k(
-                "TextButton",
-                {
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 250,
-                    Size = UDim2.fromScale(1, 1),
-                    Parent = q.Frame,
-                    Visible = false
                 }
-            )
-            q.Locked =
-            k(
-                "Frame",
-                {
-                    BackgroundColor3 = Color3.fromRGB(0, 0, 0),
-                    BackgroundTransparency = 1,
-                    ZIndex = 135,
-                    Size = UDim2.fromScale(1, 1),
-                    Parent = q.Frame,
-                    Visible = true
-                },
-                {
-                    k("UICorner",{CornerRadius = UDim.new(0, 4)}),
-                    k(
-                        "ImageLabel",
-                        {
-                            BackgroundTransparency = 1,
-                            Size = UDim2.fromOffset(0, 0),
-                            Position = UDim2.new(0.5, 0, 0.5, 0),
-                            AnchorPoint = Vector2.new(0.5, 0.5),
-                            Image = "http://www.roblox.com/asset/?id=18855086552",
-                            ImageColor3 = Color3.fromRGB(0, 0, 0)
-                        }
-                    )
-                }
-            )
+                )
+            end
             function q.SetTitle(r, s)
                 q.TitleLabel.Text = s
             end
-            function q.SetDesc(r, s)
-                if s == nil then
-                    s = ""
+            if p and p == "MiniParagraph" then
+                q.Frame.BackgroundTransparency = 1
+                q.TitleLabel.Parent = q.Frame
+                q.IsLocked = nil
+            else
+                q.Border.Parent = q.Frame
+                q.LabelHolder.Parent = q.Frame
+                local UICornerQ =
+                k(
+                    "UICorner",
+                    {
+                        CornerRadius = UDim.new(0, 4),
+                        Parent = q.Frame
+                    }
+                )
+                q.LockButton =
+                k(
+                    "TextButton",
+                    {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ZIndex = 250,
+                        Size = UDim2.fromScale(1, 1),
+                        Parent = q.Frame,
+                        Visible = false
+                    }
+                )
+                q.Locked =
+                k(
+                    "Frame",
+                    {
+                        BackgroundColor3 = Color3.fromRGB(0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ZIndex = 135,
+                        Size = UDim2.fromScale(1, 1),
+                        Parent = q.Frame,
+                        Visible = true
+                    },
+                    {
+                        k("UICorner",{CornerRadius = UDim.new(0, 4)}),
+                        k(
+                            "ImageLabel",
+                            {
+                                BackgroundTransparency = 1,
+                                Size = UDim2.fromOffset(0, 0),
+                                Position = UDim2.new(0.5, 0, 0.5, 0),
+                                AnchorPoint = Vector2.new(0.5, 0.5),
+                                Image = "http://www.roblox.com/asset/?id=18855086552",
+                                ImageColor3 = Color3.fromRGB(0, 0, 0)
+                            }
+                        )
+                    }
+                )
+                function q.SetDesc(r, s)
+                    if s == nil then
+                        s = ""
+                    end
+                    if s == "" then
+                        q.DescLabel.Visible = false
+                    else
+                        q.DescLabel.Visible = true
+                    end
+                    q.DescLabel.Text = s
+                    if q.IsLocked then ts:Create(q.Locked.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1), {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}):Play() end
                 end
-                if s == "" then
-                    q.DescLabel.Visible = false
-                else
-                    q.DescLabel.Visible = true
+                function q.Lock(r)
+                    q.Locked.ImageLabel.Size = UDim2.fromOffset(0, 0)
+                    ts:Create(
+                        q.Locked,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {BackgroundTransparency = 0.5}
+                    ):Play()
+                    ts:Create(
+                        q.Locked.ImageLabel,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}
+                    ):Play()
+                    q.IsLocked = true
+                    q.LockButton.Visible = true
                 end
-                q.DescLabel.Text = s
-                if q.IsLocked then ts:Create(q.Locked.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1), {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}):Play() end
-            end
-            function q.Lock(r)
-                q.Locked.ImageLabel.Size = UDim2.fromOffset(0, 0)
-                ts:Create(
-                    q.Locked,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {BackgroundTransparency = 0.5}
-                ):Play()
-                ts:Create(
-                    q.Locked.ImageLabel,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}
-                ):Play()
-                q.IsLocked = true
-                q.LockButton.Visible = true
-            end
-            function q.UnLock(r)
-                ts:Create(
-                    q.Locked,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {BackgroundTransparency = 1}
-                ):Play()
-                ts:Create(
-                    q.Locked.ImageLabel,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {Size = UDim2.fromOffset(0, 0)}
-                ):Play()
-                q.IsLocked = false
-                q.LockButton.Visible = false
+                function q.UnLock(r)
+                    ts:Create(
+                        q.Locked,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {BackgroundTransparency = 1}
+                    ):Play()
+                    ts:Create(
+                        q.Locked.ImageLabel,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {Size = UDim2.fromOffset(0, 0)}
+                    ):Play()
+                    q.IsLocked = false
+                    q.LockButton.Visible = false
+                end 
+
+                q:SetDesc(n)
             end
             function q.Destroy(r)
                 q.Frame:Destroy()
             end
             q:SetTitle(m)
-            q:SetDesc(n)
-            if p then
+            if p and p ~= "MiniParagraph" then
                 local r, s, t =
                     h.Themes,
                     j.SpringMotor(
@@ -1960,9 +1983,6 @@ local aa = {
                 Parent = v.Root,
                 Window = v
             }
-            if e(k).UseAcrylic then
-                v.AcrylicPaint.AddParent(v.Root)
-            end
             local BS =
             s(
                 "Frame",
@@ -2939,6 +2959,7 @@ local aa = {
                     Buttons = {},
                     Opened = false,
                     Type = "Dropdown",
+                    Text = "",
                     Callback = j.Callback or function()
                         end
                 },
@@ -3172,7 +3193,8 @@ local aa = {
                 else
                     D = l.Value or ""
                 end
-                n.Text = (D == "" and "--" or D)
+                n.Text = (D == "" and "" or D)
+                l.Text = n.Text
             end
             function l.GetActiveValues(B)
                 if j.Multi then
@@ -3298,6 +3320,9 @@ local aa = {
                     D[M] = J
                     if L.TextBounds.X >= 148 then
                         L.TextScaled = true
+                    end
+                    if #C >= 8 then
+                        task.wait()
                     end
                 end
                 x = 0
@@ -3456,10 +3481,7 @@ local aa = {
             if h.Finished then
                 ai(
                     k.FocusLost,
-                    function(l)
-                        if not l then
-                            return
-                        end
+                    function()
                         h:SetValue(k.Text)
                     end
                 )
@@ -3724,6 +3746,29 @@ local aa = {
         end
         return aj
     end,
+    [101] = function()
+        local aa, ab, ac, ad, ae = b(101)
+        local af = ab.Parent.Parent
+        local ag, ah, ai, aj = af.Components, ac(af.Packages.Flipper), ac(af.Creator), {}
+        aj.__index = aj
+        aj.__type = "MiniParagraph"
+        function aj.New(c, d)
+            assert(d.Title, "MiniParagraph - Missing Title")
+            local e = ac(ag.Element)(d.Title, "", aj.Container, "MiniParagraph")
+            task.spawn(
+                function()
+                    repeat
+                        e.Frame.BackgroundTransparency = 1
+                        task.wait()
+                    until e.Frame.BackgroundTransparency == 1
+                    warn("SET to 1")
+                end
+            )
+            e.TitleLabel.Parent = e.Frame
+            return e
+        end
+        return aj
+    end,
     [26] = function()
         local aa, ab, ac, ad, ae = b(26)
         local af, ag = game:GetService "UserInputService", ab.Parent.Parent
@@ -3739,7 +3784,7 @@ local aa = {
             assert(f.Max, "Slider - Missing maximum value.")
             assert(f.Rounding, "Slider - Missing rounding value.")
             local h, i, j, xk =
-                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding or 0, Callback = f.Callback or function(h)
+                {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
                 ac(aj.Element)(f.Title, f.Description, d.Container, false),
@@ -3771,7 +3816,7 @@ local aa = {
                     ThemeTag = {ImageColor3 = "Accent"}
                 }
             )
-            local l, m, n =
+            local l, m =
                 ai(
                     "Frame",
                     {BackgroundTransparency = 1, Position = UDim2.fromOffset(7, 0), Size = UDim2.new(1, -14, 1, 0)},
@@ -3781,23 +3826,6 @@ local aa = {
                     "Frame",
                     {Size = UDim2.new(0, 0, 1, 0), ThemeTag = {BackgroundColor3 = "Accent"}},
                     {ai("UICorner", {CornerRadius = UDim.new(1, 0)})}
-                ),
-                ai(
-                    "TextLabel",
-                    {
-                        FontFace = Font.new "rbxasset://fonts/families/GothamSSm.json",
-                        Text = "Value",
-                        TextSize = 12,
-                        TextWrapped = true,
-                        Visible = false,
-                        TextXAlignment = Enum.TextXAlignment.Right,
-                        BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                        BackgroundTransparency = 1,
-                        Size = UDim2.new(0, 100, 0, 14),
-                        Position = UDim2.new(0, -4, 0.5, 0),
-                        AnchorPoint = Vector2.new(1, 0.5),
-                        ThemeTag = {TextColor3 = "SubText"}
-                    }
                 )
             local o =
                 ai(
@@ -3813,7 +3841,6 @@ local aa = {
                 {
                     ai("UICorner", {CornerRadius = UDim.new(1, 0)}),
                     ai("UISizeConstraint", {MaxSize = Vector2.new(150, math.huge)}),
-                    n,
                     m,
                     l
                 }
@@ -3858,16 +3885,12 @@ local aa = {
             )
             ah.AddSignal(
                 xk.Input.FocusLost,
-                function(xl)
-                    if not xl then
-                        return warn("NOT XL")
+                function()
+                    if h.Rounding == 0 and string.find(xk.Input.Text,".") then
+                       xk.Input.Text = string.split(xk.Input.Text,".")[1]
                     end
                     if xk.Input.Text == "" or xk.Input.Text:len() == 0 then
-                        xk.Input.Text = 0
-                    end
-                    if h.Rounding == 0 and xk.Input.Text:find(".") then
-                       local qd = xk.Input.Text:gsub(".","")
-                       xk.Input.Text = qd
+                       xk.Input.Text = 0
                     end
                     h:SetValue(xk.Input.Text)
                 end
@@ -3892,7 +3915,6 @@ local aa = {
                     p.Value = g:Round(math.clamp(s, h.Min, h.Max), h.Rounding)
                     k.Position = UDim2.new((p.Value - h.Min) / (h.Max - h.Min), -7, 0.5, 0)
                     m.Size = UDim2.fromScale((p.Value - h.Min) / (h.Max - h.Min), 1)
-                    n.Text = tostring(p.Value)
                     xk.Input.Text = p.Value
                 end
                 g:SafeCallback(h.Callback, p.Value)
