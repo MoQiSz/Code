@@ -882,53 +882,63 @@ local aa = {
             function q.SetTitle(r, s)
                 q.TitleLabel.Text = s
             end
-            function q.SetDesc(r, s)
-                if s == nil then
-                    s = ""
+            if p and p == "MiniParagraph" then
+                q.Frame.BackgroundTransparency = 1
+                q.TitleLabel.Parent = q.Frame
+                q.IsLocked = nil
+                q.Border:Destroy()
+                a.Locked:Destroy()
+                q.LockButton:Destroy()
+                q.LabelHolder:Destroy()
+            else
+                function q.SetDesc(r, s)
+                    if s == nil then
+                        s = ""
+                    end
+                    if s == "" then
+                        q.DescLabel.Visible = false
+                    else
+                        q.DescLabel.Visible = true
+                    end
+                    q.DescLabel.Text = s
+                    if q.IsLocked then ts:Create(q.Locked.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1), {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}):Play() end
                 end
-                if s == "" then
-                    q.DescLabel.Visible = false
-                else
-                    q.DescLabel.Visible = true
+                function q.Lock(r)
+                    q.Locked.ImageLabel.Size = UDim2.fromOffset(0, 0)
+                    ts:Create(
+                        q.Locked,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {BackgroundTransparency = 0.5}
+                    ):Play()
+                    ts:Create(
+                        q.Locked.ImageLabel,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}
+                    ):Play()
+                    q.IsLocked = true
+                    q.LockButton.Visible = true
                 end
-                q.DescLabel.Text = s
-                if q.IsLocked then ts:Create(q.Locked.ImageLabel, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1), {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}):Play() end
-            end
-            function q.Lock(r)
-                q.Locked.ImageLabel.Size = UDim2.fromOffset(0, 0)
-                ts:Create(
-                    q.Locked,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {BackgroundTransparency = 0.5}
-                ):Play()
-                ts:Create(
-                    q.Locked.ImageLabel,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {Size = UDim2.fromOffset(q.DescLabel.TextBounds.Y + 15, q.DescLabel.TextBounds.Y + 15)}
-                ):Play()
-                q.IsLocked = true
-                q.LockButton.Visible = true
-            end
-            function q.UnLock(r)
-                ts:Create(
-                    q.Locked,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {BackgroundTransparency = 1}
-                ):Play()
-                ts:Create(
-                    q.Locked.ImageLabel,
-                    TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
-                    {Size = UDim2.fromOffset(0, 0)}
-                ):Play()
-                q.IsLocked = false
-                q.LockButton.Visible = false
+                function q.UnLock(r)
+                    ts:Create(
+                        q.Locked,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {BackgroundTransparency = 1}
+                    ):Play()
+                    ts:Create(
+                        q.Locked.ImageLabel,
+                        TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out, 0.1),
+                        {Size = UDim2.fromOffset(0, 0)}
+                    ):Play()
+                    q.IsLocked = false
+                    q.LockButton.Visible = false
+                end 
             end
             function q.Destroy(r)
                 q.Frame:Destroy()
             end
             q:SetTitle(m)
             q:SetDesc(n)
-            if p then
+            if p and p ~= "MiniParagraph" then
                 local r, s, t =
                     h.Themes,
                     j.SpringMotor(
@@ -3722,15 +3732,9 @@ local aa = {
         aj.__type = "MiniParagraph"
         function aj.New(c, d)
             assert(d.Title, "MiniParagraph - Missing Title")
-            local e = ac(ag.Element)(d.Title, "", aj.Container, false)
+            local e = ac(ag.Element)(d.Title, "", aj.Container, "MiniParagraph")
             e.Frame.BackgroundTransparency = 1
             e.TitleLabel.Parent = e.Frame
-            e.Border.Transparency = 0.6
-            for nc, cn in next, e do
-                if not table.find({"Frame", "TitleLabel"}, tostring(nc)) then
-                    cn.Destroy()
-                end
-            end
             return e
         end
         return aj
