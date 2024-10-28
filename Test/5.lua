@@ -780,6 +780,19 @@ local aa = {
                 }
             )
             if p and p == "MiniParagraph" then
+                q.Frame =
+                k(
+                "TextButton",
+                {
+                    Size = UDim2.new(1, 0, 0, 0),
+                    BackgroundTransparency = 1,
+                    BackgroundColor3 = Color3.fromRGB(130, 130, 130),
+                    Parent = o,
+                    AutomaticSize = Enum.AutomaticSize.Y,
+                    Text = "",
+                    LayoutOrder = 7
+                }
+                )
             else
                 q.DescLabel =
                 k(
@@ -828,7 +841,6 @@ local aa = {
                     ThemeTag = {Color = "ElementBorder"}
                 }
                 )
-            end
             q.Frame =
                 k(
                 "TextButton",
@@ -841,8 +853,10 @@ local aa = {
                     Text = "",
                     LayoutOrder = 7,
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
-                }
-            )
+                },
+                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
+                )
+            end
             function q.SetTitle(r, s)
                 q.TitleLabel.Text = s
             end
@@ -851,16 +865,6 @@ local aa = {
                 q.TitleLabel.Parent = q.Frame
                 q.IsLocked = nil
             else
-                q.Border.Parent = q.Frame
-                q.LabelHolder.Parent = q.Frame
-                local UICornerQ =
-                k(
-                    "UICorner",
-                    {
-                        CornerRadius = UDim.new(0, 4),
-                        Parent = q.Frame
-                    }
-                )
                 q.LockButton =
                 k(
                     "TextButton",
@@ -2425,6 +2429,7 @@ local aa = {
             )
             return o
         end
+        task.wait()
         return l
     end,
     [21] = function()
@@ -2920,6 +2925,7 @@ local aa = {
             y.Options[w] = z
             return z
         end
+        task.wait()
         return u
     end,
     [22] = function()
@@ -3143,13 +3149,6 @@ local aa = {
                 u.Size = UDim2.fromScale(1, 0.6)
                 v.Visible = false
                 search.Input.Text = ""
-            end
-            function l.Close(B)
-                l.Opened = false
-                A.ScrollingEnabled = true
-                u.Size = UDim2.fromScale(1, 0.6)
-                v.Visible = false
-                if j.Search then se.Input.Text = "" end
             end
             function l.UpdateText(B)
                 for DI, CV in next, t:GetChildren() do
@@ -3409,6 +3408,7 @@ local aa = {
             k.Options[i] = l
             return l
         end
+        task.wait()
         return g
     end,
     [23] = function()
@@ -3497,6 +3497,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [24] = function()
@@ -3715,6 +3716,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [25] = function()
@@ -3731,6 +3733,7 @@ local aa = {
             e.Border.Transparency = 0.6
             return e
         end
+        task.wait()
         return aj
     end,
     [101] = function()
@@ -3742,18 +3745,11 @@ local aa = {
         function aj.New(c, d)
             assert(d.Title, "MiniParagraph - Missing Title")
             local e = ac(ag.Element)(d.Title, "", aj.Container, "MiniParagraph")
-            task.spawn(
-                function()
-                    repeat
-                        e.Frame.BackgroundTransparency = 1
-                        task.wait()
-                    until e.Frame.BackgroundTransparency == 1
-                    warn("SET to 1")
-                end
-            )
+            e.Frame.BackgroundTransparency = 1
             e.TitleLabel.Parent = e.Frame
             return e
         end
+        task.wait()
         return aj
     end,
     [26] = function()
@@ -3915,6 +3911,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [27] = function()
@@ -4007,6 +4004,7 @@ local aa = {
             g.Options[e] = h
             return h
         end
+        task.wait()
         return c
     end,
     [28] = function()
