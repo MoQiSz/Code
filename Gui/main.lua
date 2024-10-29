@@ -2429,7 +2429,6 @@ local aa = {
             )
             return o
         end
-        task.wait()
         return l
     end,
     [21] = function()
@@ -2925,7 +2924,6 @@ local aa = {
             y.Options[w] = z
             return z
         end
-        task.wait()
         return u
     end,
     [22] = function()
@@ -3325,6 +3323,7 @@ local aa = {
             end
             function l.SetValues(B, C)
                 if C then
+                    l:Close()
                     l.Values = C
                     for E, F in next, t:GetChildren() do
                         if F:IsA "TextButton" then
@@ -3362,6 +3361,7 @@ local aa = {
                         l.Value = l.Values[C]
                     end
                 end
+                l:Close()
                 for E, F in next, t:GetChildren() do
                     if F:IsA "TextButton" then
                         F:Destroy()
@@ -3413,7 +3413,6 @@ local aa = {
             k.Options[i] = l
             return l
         end
-        task.wait()
         return g
     end,
     [23] = function()
@@ -3502,7 +3501,6 @@ local aa = {
             g.Options[e] = h
             return h
         end
-        task.wait()
         return c
     end,
     [24] = function()
@@ -3721,7 +3719,6 @@ local aa = {
             g.Options[e] = h
             return h
         end
-        task.wait()
         return c
     end,
     [25] = function()
@@ -3738,7 +3735,6 @@ local aa = {
             e.Border.Transparency = 0.6
             return e
         end
-        task.wait()
         return aj
     end,
     [101] = function()
@@ -3754,7 +3750,6 @@ local aa = {
             e.TitleLabel.Parent = e.Frame
             return e
         end
-        task.wait()
         return aj
     end,
     [26] = function()
@@ -3916,7 +3911,6 @@ local aa = {
             g.Options[e] = h
             return h
         end
-        task.wait()
         return c
     end,
     [27] = function()
@@ -4009,7 +4003,6 @@ local aa = {
             g.Options[e] = h
             return h
         end
-        task.wait()
         return c
     end,
     [28] = function()
