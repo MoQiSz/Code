@@ -1962,7 +1962,7 @@ local aa = {
             v.Root =
                 s(
                 "Frame",
-                {BackgroundTransparency = 1, ZIndex = 125, Size = v.Size, Position = v.Position, Parent = t.Parent},
+                {BackgroundTransparency = 1, ZIndex = 125, Size = v.Size, Position = UDim2.fromScale(0.5, 0.5), AnchorPoint = Vector2.new(0.5,0.5), Parent = t.Parent},
                 {v.AcrylicPaint.Frame, v.TabDisplay, v.ContainerHolder, F, E}
             )
             v.TitleBar = e(d.Parent.TitleBar) {
