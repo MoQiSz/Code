@@ -1001,7 +1001,7 @@ local aa = {
                 {
                     Position = UDim2.new(1, -10, 1, -5),
                     ZIndex = 125,
-                    Size = UDim2.new(0, 310, 1, -30),
+                    Size = UDim2.new(0.315, 0, 1, -30),
                     AnchorPoint = Vector2.new(1, 1),
                     BackgroundTransparency = 1,
                     Parent = q
