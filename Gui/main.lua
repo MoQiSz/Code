@@ -2036,8 +2036,8 @@ local aa = {
                 v.Maximized = M
                 v.TitleBar.MaxButton.Frame.Icon.Image = M and o.Restore or o.Max
                 if M then
-                    K = j.ViewportSize.X / 3
-                    L = j.ViewportSize.Y / 2
+                    K = v.Root.Size.X.Offset
+                    L = v.Root.Size.Y.Offset
                 end
                 local P, Q = M and j.ViewportSize.X or K, M and j.ViewportSize.Y or L
                 G:setGoal {
