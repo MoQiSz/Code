@@ -2186,7 +2186,7 @@ local aa = {
             function v.Dialog(N, O)
                 local P = M:Create()
                 P.Title.Text = O.Title
-                warn(P.Root.Size, v.Root.Size)
+                --warn(P.Root.Size, v.Root.Size)
                 local Q =
                     s(
                     "TextLabel",
