@@ -2047,8 +2047,8 @@ local aa = {
                 v.Size = UDim2.fromOffset(P, Q)
                 if not N then
                     H:setGoal {
-                        X = q(M and 0 or v.Position.X.Offset, {frequency = 6}),
-                        Y = q(M and 0 or v.Position.Y.Offset, {frequency = 6})
+                        X = q(M and 450 or v.Position.X.Offset, {frequency = 6}),
+                        Y = q(M and 350 or v.Position.Y.Offset, {frequency = 6})
                     }
                 end
             end
