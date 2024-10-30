@@ -1001,7 +1001,7 @@ local aa = {
                 {
                     Position = UDim2.new(1, -10, 1, -5),
                     ZIndex = 125,
-                    Size = UDim2.new(0, 310, 1, -30),
+                    Size = UDim2.new(0.315, 0, 1, -30),
                     AnchorPoint = Vector2.new(1, 1),
                     BackgroundTransparency = 1,
                     Parent = q
@@ -2470,6 +2470,7 @@ local aa = {
             z.Lock = A.Lock
             z.UnLock = A.UnLock
             z.IsLocked = A.IsLocked
+            z.Frame = A.Frame
             local B =
                 s(
                 "Frame",
@@ -2961,6 +2962,7 @@ local aa = {
             l.Lock = m.Lock
             l.UnLock = m.UnLock
             l.IsLocked = m.IsLocked
+            l.Frame = m.Frame
             local search = ac(f.Textbox)()
             local n, o =
                 e(
@@ -3443,6 +3445,7 @@ local aa = {
             h.Lock = i.Lock
             h.UnLock = i.UnLock
             h.IsLocked = i.IsLocked
+            h.Frame = i.Frame
             local j = ac(aj.Textbox)(i.Frame, true)
             j.Frame.Position = UDim2.new(1, -10, 0.5, 0)
             j.Frame.AnchorPoint = Vector2.new(1, 0.5)
@@ -3533,6 +3536,7 @@ local aa = {
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            h.Frame = j.Frame
             local k =
                 ai(
                 "TextLabel",
@@ -3778,6 +3782,7 @@ local aa = {
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            h.Frame = j.Frame
             xk.Frame.Position = UDim2.new(0, -4, 0.5, 0)
             xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
             xk.Frame.Size = UDim2.new(0, 100, 0, 14)
@@ -3931,6 +3936,7 @@ local aa = {
             h.Lock = i.Lock
             h.UnLock = i.UnLock
             h.IsLocked = i.IsLocked
+            h.Frame = i.Frame
             local j, k =
                 ai(
                     "ImageLabel",
