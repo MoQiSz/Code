@@ -1881,11 +1881,11 @@ local aa = {
                 {
                     Minimized = false,
                     Maximized = false,
-                    Size = t.Size,
+                    Size = UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5),
                     CurrentPos = 0,
                     Position = UDim2.fromOffset(
-                        j.ViewportSize.X / 2 - t.Size.X.Offset / 2,
-                        j.ViewportSize.Y / 2 - t.Size.Y.Offset / 2
+                        j.ViewportSize.X / 2 - UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5).X.Offset / 2,
+                        j.ViewportSize.Y / 2 - UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5).Y.Offset / 2
                     )
                 },
                 false
@@ -2053,6 +2053,21 @@ local aa = {
                 end
             end
             m.AddSignal(
+                j:GetPropertyChangedSignal "ViewportSize",
+                function()
+                    if v.Maximized then
+                        v.Maximize(false, true, true)
+                    end
+                    v.Root.Size = UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5)
+                    v.Root.Position = UDim2.fromOffset(
+                        j.ViewportSize.X / 2 - v.Root.Size.X.Offset / 2,
+                        j.ViewportSize.Y / 2 - v.Root.Size.Y.Offset / 2
+                    )
+                    v.Size = v.Root.Size
+                    v.Position = v.Root.Position
+                end
+            )
+            m.AddSignal(
                 v.TitleBar.Frame.InputBegan,
                 function(M)
                     if M.UserInputType == Enum.UserInputType.MouseButton1 or M.UserInputType == Enum.UserInputType.Touch then
@@ -2186,7 +2201,6 @@ local aa = {
             function v.Dialog(N, O)
                 local P = M:Create()
                 P.Title.Text = O.Title
-                --warn(P.Root.Size, v.Root.Size)
                 local Q =
                     s(
                     "TextLabel",
