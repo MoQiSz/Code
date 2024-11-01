@@ -1001,7 +1001,7 @@ local aa = {
                 {
                     Position = UDim2.new(1, -10, 1, -5),
                     ZIndex = 125,
-                    Size = UDim2.new(0, 310, 1, -30),
+                    Size = UDim2.new(0.275, 0, 1, -30),
                     AnchorPoint = Vector2.new(1, 1),
                     BackgroundTransparency = 1,
                     Parent = q
@@ -1881,11 +1881,11 @@ local aa = {
                 {
                     Minimized = false,
                     Maximized = false,
-                    Size = t.Size,
+                    Size = UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5),
                     CurrentPos = 0,
                     Position = UDim2.fromOffset(
-                        j.ViewportSize.X / 2 - t.Size.X.Offset / 2,
-                        j.ViewportSize.Y / 2 - t.Size.Y.Offset / 2
+                        j.ViewportSize.X / 2 - UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5).X.Offset / 2,
+                        j.ViewportSize.Y / 2 - UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5).Y.Offset / 2
                     )
                 },
                 false
@@ -2036,8 +2036,8 @@ local aa = {
                 v.Maximized = M
                 v.TitleBar.MaxButton.Frame.Icon.Image = M and o.Restore or o.Max
                 if M then
-                    K = v.Size.X.Offset
-                    L = v.Size.Y.Offset
+                    K = v.Root.Size.X.Offset
+                    L = v.Root.Size.Y.Offset
                 end
                 local P, Q = M and j.ViewportSize.X or K, M and j.ViewportSize.Y or L
                 G:setGoal {
@@ -2052,6 +2052,20 @@ local aa = {
                     }
                 end
             end
+            m.AddSignal(
+                j:GetPropertyChangedSignal "ViewportSize",
+                function()
+                    if v.Maximized then
+                        v.Maximize(false, true, true)
+                    end
+                    v.Root.Size = UDim2.fromOffset(j.ViewportSize.X / 2, j.ViewportSize.Y / 1.5)
+                    v.Root.Position = UDim2.fromOffset(
+                        j.ViewportSize.X / 2 - v.Root.Size.X.Offset / 2,
+                        j.ViewportSize.Y / 2 - v.Root.Size.Y.Offset / 2
+                    )
+                    v.Position = v.Root.Position
+                end
+            )
             m.AddSignal(
                 v.TitleBar.Frame.InputBegan,
                 function(M)
@@ -2093,6 +2107,7 @@ local aa = {
                     if M.UserInputType == Enum.UserInputType.MouseButton1 or M.UserInputType == Enum.UserInputType.Touch then
                         A = true
                         B = M.Position
+                        warn(M.Position)
                     end
                 end
             )
@@ -2112,6 +2127,7 @@ local aa = {
                             M.UserInputType == Enum.UserInputType.Touch) and
                             A
                      then
+                        --warn(M, B)
                         local N, O = M.Position - B, v.Size
                         local P = Vector3.new(O.X.Offset, O.Y.Offset, 0) + Vector3.new(1, 1, 0) * N
                         local Q = Vector2.new(math.clamp(P.X, 470, 2048), math.clamp(P.Y, 380, 2048))
@@ -2186,6 +2202,7 @@ local aa = {
             function v.Dialog(N, O)
                 local P = M:Create()
                 P.Title.Text = O.Title
+                --warn(P.Root.Size, v.Root.Size)
                 local Q =
                     s(
                     "TextLabel",
@@ -2393,8 +2410,6 @@ local aa = {
         local h = {}
         for i, j in next, d:GetChildren() do
             table.insert(h, e(j))
-            task.wait(0.25)
-            warn(tostring(i,j))
         end
         return h
     end,
@@ -2472,6 +2487,7 @@ local aa = {
             z.Lock = A.Lock
             z.UnLock = A.UnLock
             z.IsLocked = A.IsLocked
+            z.Frame = A.Frame
             local B =
                 s(
                 "Frame",
@@ -2963,6 +2979,7 @@ local aa = {
             l.Lock = m.Lock
             l.UnLock = m.UnLock
             l.IsLocked = m.IsLocked
+            l.Frame = m.Frame
             local search = ac(f.Textbox)()
             local n, o =
                 e(
@@ -3150,13 +3167,6 @@ local aa = {
                 v.Visible = false
                 search.Input.Text = ""
             end
-            function l.Close(B)
-                l.Opened = false
-                A.ScrollingEnabled = true
-                u.Size = UDim2.fromScale(1, 0.6)
-                v.Visible = false
-                if j.Search then se.Input.Text = "" end
-            end
             function l.UpdateText(B)
                 for DI, CV in next, t:GetChildren() do
                     if CV:IsA "TextButton" then
@@ -3332,6 +3342,7 @@ local aa = {
             end
             function l.SetValues(B, C)
                 if C then
+                    l:Close()
                     l.Values = C
                     for E, F in next, t:GetChildren() do
                         if F:IsA "TextButton" then
@@ -3367,6 +3378,12 @@ local aa = {
                         l.Value = C
                     elseif type(C) == "number" and l.Values[C] and table.find(l.Values, l.Values[C]) then
                         l.Value = l.Values[C]
+                    end
+                end
+                l:Close()
+                for E, F in next, t:GetChildren() do
+                    if F:IsA "TextButton" then
+                        F:Destroy()
                     end
                 end
                 l:Display()
@@ -3445,6 +3462,7 @@ local aa = {
             h.Lock = i.Lock
             h.UnLock = i.UnLock
             h.IsLocked = i.IsLocked
+            h.Frame = i.Frame
             local j = ac(aj.Textbox)(i.Frame, true)
             j.Frame.Position = UDim2.new(1, -10, 0.5, 0)
             j.Frame.AnchorPoint = Vector2.new(1, 0.5)
@@ -3535,6 +3553,7 @@ local aa = {
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            h.Frame = j.Frame
             local k =
                 ai(
                 "TextLabel",
@@ -3780,6 +3799,7 @@ local aa = {
             h.Lock = j.Lock
             h.UnLock = j.UnLock
             h.IsLocked = j.IsLocked
+            h.Frame = j.Frame
             xk.Frame.Position = UDim2.new(0, -4, 0.5, 0)
             xk.Frame.AnchorPoint = Vector2.new(1, 0.5)
             xk.Frame.Size = UDim2.new(0, 100, 0, 14)
@@ -3933,6 +3953,7 @@ local aa = {
             h.Lock = i.Lock
             h.UnLock = i.UnLock
             h.IsLocked = i.IsLocked
+            h.Frame = i.Frame
             local j, k =
                 ai(
                     "ImageLabel",
