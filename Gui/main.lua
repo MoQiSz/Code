@@ -1854,7 +1854,9 @@ local aa = {
                 p.Window:Dialog {
                     Title = n.UpdateDate or "00/00/0000 [V Title]",
                     Content = n.UpdateLog or "● Content",
-                    Buttons = {{Title = "Close"}}
+                    Buttons = {{Title = "Close", Callback = function()
+                        n.Window.Maximize(false)
+                    end}}
                 }
             end
             )
