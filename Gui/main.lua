@@ -238,13 +238,13 @@ local aa = {
         function x.ToggleTransparency(C, D)
             x.Transparency = D
             if x.Window then
-                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D >= 0.85 and 0.85 or D
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = (tonumber(D) >= tonumber(0.9) and tonumber(0.9)) or tonumber(D)
             end
             if x.NotifyHolder then
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency =D >= 0.85 and 0.85 or D
+                            XL.Frame.Holder.Background.BackgroundTransparency =D >= 0.(tonumber(D) >= tonumber(0.9) and tonumber(0.9)) or tonumber(D)
                         end
                     end
                 end
@@ -391,7 +391,7 @@ local aa = {
         local h, i = e(d.Parent.Parent.Creator), e(d.Parent.AcrylicBlur)
         local j = h.New
         return function(k)
-            local l, D = {}, e(d.Parent.Parent)
+            local l = {}
             l.Frame =
                 j(
                 "Frame",
@@ -421,7 +421,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = (D.Transparency >= 0.85 and 0.85) or D.Transparency,
+                            BackgroundTransparency = (tonumber(e(d.Parent.Parent).Transparency) >= tonumber(0.9) and tonumber(0.9)) or tonumber(e(d.Parent.Parent).Transparency),
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
