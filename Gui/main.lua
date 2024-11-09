@@ -391,7 +391,7 @@ local aa = {
         local h, i = e(d.Parent.Parent.Creator), e(d.Parent.AcrylicBlur)
         local j = h.New
         return function(k)
-            local l = {}
+            local l, D = {}, e(d.Parent.Parent)
             l.Frame =
                 j(
                 "Frame",
@@ -421,7 +421,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = e(d.Parent.Parent).Transparency >= 0.85 and 0.85 or e(d.Parent.Parent).Transparency,
+                            BackgroundTransparency = (D.Transparency >= 0.85 and 0.85) or D.Transparency,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
