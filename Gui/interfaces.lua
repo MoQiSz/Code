@@ -77,17 +77,6 @@ local InterfaceManager = {} do
 
         InterfaceTheme:SetValue(Settings.Theme)
 
-		section:AddToggle("TransparentToggle", {
-			Title = "Transparency",
-			Description = "Makes the interface transparent.",
-			Default = Settings.Transparency,
-			Callback = function(Value)
-				Library:ToggleTransparency(Value)
-				Settings.Transparency = Value
-                InterfaceManager:SaveSettings()
-			end
-		})
-
         section:AddSlider("TransparentSlider", {
             Title = "Transparency",
             Description = "Makes the interface transparent.",
