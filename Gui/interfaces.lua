@@ -48,7 +48,11 @@ local InterfaceManager = {} do
 
             if success then
                 for i, v in next, decoded do
-                    InterfaceManager.Settings[i] = v
+                    if i == "Transparency" and typeof(v) ~= "number" then
+                        InterfaceManager.Settings[i] = 0.5
+                    else
+                        InterfaceManager.Settings[i] = v
+                    end
                 end
             end
         end
@@ -77,13 +81,13 @@ local InterfaceManager = {} do
 
         InterfaceTheme:SetValue(Settings.Theme)
 
-        section:AddSlider("TransparentSlider", {
+        local TransparentSlider = section:AddSlider("TransparentSlider", {
             Title = "Transparency",
             Description = "Makes the interface transparent.",
-            Default = Settings.Transparency,
             Min = 0,
             Max = 1,
-            Rounding = 2,
+            Rounding = 1,
+            Default = Settings.Transparency,
             Callback = function(Value)
                 Library:ToggleTransparency(Value)
                 Settings.Transparency = Value
@@ -101,13 +105,14 @@ local InterfaceManager = {} do
                 InterfaceManager:SaveSettings()
             end
         })
-	
+
 		local MenuKeybind = section:AddKeybind("MenuKeybind", { Title = "Minimize Bind", Default = Settings.MenuKeybind })
 		MenuKeybind:OnChanged(function()
 			Settings.MenuKeybind = MenuKeybind.Value
             InterfaceManager:SaveSettings()
 		end)
 		Library.MinimizeKeybind = MenuKeybind
+        TransparentSlider:SetValue(Settings.Transparency)
     end
 end
 
