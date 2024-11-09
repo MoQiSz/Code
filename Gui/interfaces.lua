@@ -48,7 +48,7 @@ local InterfaceManager = {} do
 
             if success then
                 for i, v in next, decoded do
-                    if i == "Transparency" and typeof(v) ~= "number" then
+                    if i == "Transparency" and typeof(v) == "boolean" then
                         InterfaceManager.Settings[i] = 0.5
                     else
                         InterfaceManager.Settings[i] = v
@@ -86,11 +86,11 @@ local InterfaceManager = {} do
             Description = "Makes the interface transparent.",
             Min = 0,
             Max = 1,
-            Rounding = 1,
+            Rounding = 2,
             Default = Settings.Transparency,
             Callback = function(Value)
-                Library:ToggleTransparency(Value)
-                Settings.Transparency = Value
+                Library:ToggleTransparency(tonumber(Value))
+                Settings.Transparency = tostring(Value)
                 InterfaceManager:SaveSettings()
             end
         })
