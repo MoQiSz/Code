@@ -244,7 +244,7 @@ local aa = {
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency =D >= 0.(tonumber(D) >= tonumber(0.9) and tonumber(0.9)) or tonumber(D)
+                            XL.Frame.Holder.Background.BackgroundTransparency = (tonumber(D) >= tonumber(0.9) and tonumber(0.9)) or tonumber(D)
                         end
                     end
                 end
