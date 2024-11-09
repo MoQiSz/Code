@@ -4,7 +4,7 @@ local InterfaceManager = {} do
     InterfaceManager.Folder = "GuiSettings"
     InterfaceManager.Settings = {
         Theme = "Darker",
-        Transparency = false,
+        Transparency = 0.5,
         MenuKeybind = "LeftAlt",
         BlackScreen = false
     }
@@ -87,6 +87,20 @@ local InterfaceManager = {} do
                 InterfaceManager:SaveSettings()
 			end
 		})
+
+        section:AddSlider("TransparentSlider", {
+            Title = "Transparency",
+            Description = "Makes the interface transparent.",
+            Default = Settings.Transparency,
+            Min = 0,
+            Max = 1,
+            Rounding = 2,
+            Callback = function(Value)
+                Library:ToggleTransparency(Value)
+                Settings.Transparency = Value
+                InterfaceManager:SaveSettings()
+            end
+        })
 
         section:AddToggle("BlackScreenToggle", {
             Title = "Black Screen",
