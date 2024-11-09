@@ -132,6 +132,7 @@ local aa = {
             Window = nil,
             WindowFrame = nil,
             Unloaded = false,
+            UnloadedCallback = {},
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
@@ -228,7 +229,17 @@ local aa = {
                 if getgenv then
                     getgenv().LoadedFluentCrazyDay = nil
                 end
+                for uy, fl in next, x.UnloadedCallback do
+                    task.spawn(fl)
+                end
             end
+        end
+        function x.DestroyCallback(C, D)
+            D = D or function()
+
+            end
+            table.insert(x.UnloadedCallback, type(D) == "function" and D or function()
+            end)
         end
         function x.ToggleAcrylic(C, D)
             if x.Window then
