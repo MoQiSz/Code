@@ -135,7 +135,7 @@ local aa = {
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
-            Transparency = false,
+            Transparency = 0.5,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
@@ -238,13 +238,13 @@ local aa = {
         function x.ToggleTransparency(C, D)
             x.Transparency = D
             if x.Window then
-                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D and 0.5 or 0
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D >= 0.85 and 0.85 or D
             end
             if x.NotifyHolder then
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency = D and 0.5 or 0
+                            XL.Frame.Holder.Background.BackgroundTransparency =D >= 0.85 and 0.85 or D
                         end
                     end
                 end
@@ -421,7 +421,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = e(d.Parent.Parent).Transparency and 0.5 or 0,
+                            BackgroundTransparency = e(d.Parent.Parent).Transparency >= 0.85 and 0.85 or e(d.Parent.Parent).Transparency,
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
