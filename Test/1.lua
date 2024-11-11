@@ -188,6 +188,7 @@ local aa = {
                 B.Library = x
                 return B:New(D, E)
             end
+            task.wait()
         end
         x.Elements = z
         function x.CreateWindow(C, D)
@@ -281,12 +282,14 @@ local aa = {
             function h.Enable()
                 for k, l in pairs(j) do
                     l.Enabled = false
+                    task.wait()
                 end
                 i.Parent = game:GetService "Lighting"
             end
             function h.Disable()
                 for k, l in pairs(j) do
                     l.Enabled = l.enabled
+                    task.wait()
                 end
                 i.Parent = nil
             end
@@ -298,10 +301,12 @@ local aa = {
                 end
                 for l, m in pairs(game:GetService "Lighting":GetChildren()) do
                     k(m)
+                    task.wait()
                 end
                 if game:GetService "Workspace".CurrentCamera then
                     for n, o in pairs(game:GetService "Workspace".CurrentCamera:GetChildren()) do
                         k(o)
+                        task.wait()
                     end
                 end
             end
@@ -360,6 +365,7 @@ local aa = {
                                 u:Disconnect()
                             end
                         )
+                        task.wait()
                     end
                 end
             )
@@ -746,6 +752,7 @@ local aa = {
                     if E:IsA "TextButton" then
                         E.Size = UDim2.new(1 / s.Buttons, -(((s.Buttons - 1) * 10) / s.Buttons), 0, 32)
                     end
+                    task.wait()
                 end
                 m.AddSignal(
                     C.Frame.MouseButton1Click,
@@ -1434,6 +1441,7 @@ local aa = {
             for s, t in next, o.Tabs do
                 t.SetTransparency(1)
                 t.Selected = false
+                task.wait()
             end
             o.Tabs[q].SetTransparency(0.89)
             o.Tabs[q].Selected = true
@@ -1446,6 +1454,7 @@ local aa = {
                     task.wait(0.15)
                     for u, v in next, o.Containers do
                         v.Visible = false
+                        task.wait()
                     end
                     o.Containers[q].Visible = true
                     r.ContainerPosMotor:setGoal(l(94, {frequency = 5}))
@@ -2247,6 +2256,7 @@ local aa = {
                 end
                 for R, S in next, O.Buttons do
                     P:Button(S.Title, S.Callback)
+                    task.wait()
                 end
                 P:Open()
             end
@@ -2347,6 +2357,7 @@ local aa = {
             for m = #k.Signals, 1, -1 do
                 local n = table.remove(k.Signals, m)
                 n:Disconnect()
+                task.wait()
             end
         end
         function k.GetThemeProperty(m)
@@ -2359,10 +2370,13 @@ local aa = {
             for m, n in next, k.Registry do
                 for o, p in next, n.Properties do
                     m[o] = k.GetThemeProperty(p)
+                    task.wait()
                 end
+                task.wait()
             end
             for o, p in next, k.TransparencyMotors do
                 p:setGoal(j.Instant.new(k.GetThemeProperty "ElementTransparency"))
+                task.wait()
             end
         end
         function k.AddThemeObject(m, n)
@@ -2380,14 +2394,17 @@ local aa = {
             local p = Instance.new(m)
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
+                task.wait()
             end
             for s, t in next, n or {} do
                 if s ~= "ThemeTag" then
                     p[s] = t
                 end
+                task.wait()
             end
             for u, v in next, o or {} do
                 v.Parent = p
+                task.wait()
             end
             l(p, n)
             return p
@@ -2424,6 +2441,7 @@ local aa = {
         local h = {}
         for i, j in next, d:GetChildren() do
             table.insert(h, e(j))
+            task.wait()
         end
         return h
     end,
@@ -2642,6 +2660,7 @@ local aa = {
                         {}
                     for R = 0, 1, 0.1 do
                         table.insert(Q, ColorSequenceKeypoint.new(R, Color3.fromHSV(R, 1, 1)))
+                        task.wait()
                     end
                     local R, S =
                         s("UIGradient", {Color = ColorSequence.new(Q), Rotation = 90}),
@@ -3171,6 +3190,7 @@ local aa = {
                         if F:IsA "TextButton" then
                             F.Visible = true
                         end
+                        task.wait()
                     end
                 end
             end
@@ -3196,6 +3216,7 @@ local aa = {
                             end
                         end
                     end
+                    task.wait()
                 end
             end
             function l.Display(B)
@@ -3205,6 +3226,7 @@ local aa = {
                         if l.Value[F] then
                             D = D .. F .. ", "
                         end
+                        task.wait()
                     end
                     D = D:sub(1, #D - 2)
                 else
@@ -3218,6 +3240,7 @@ local aa = {
                     local C = {}
                     for D, E in next, l.Value do
                         table.insert(C, D)
+                        task.wait()
                     end
                     return C
                 else
@@ -3229,6 +3252,7 @@ local aa = {
                     if F:IsA "TextButton" then
                         F:Destroy()
                     end
+                    task.wait()
                 end
                 local C, D = l.Values, {}
                 local G = 0
@@ -3338,7 +3362,7 @@ local aa = {
                     if L.TextBounds.X >= 148 then
                         L.TextScaled = true
                     end
-                    if #C >= 8 then
+                    if #C >= 5 then
                         task.wait()
                     end
                 end
@@ -3349,6 +3373,7 @@ local aa = {
                             x = J.ButtonLabel.TextBounds.X
                         end
                     end
+                    task.wait()
                 end
                 x = x + 30
                 z()
@@ -3362,6 +3387,7 @@ local aa = {
                         if F:IsA "TextButton" then
                             F:Destroy()
                         end
+                        task.wait()
                     end
                 end
             end
@@ -3379,11 +3405,13 @@ local aa = {
                         if table.find(l.Values, E) then
                             D[E] = true
                         end
+                        task.wait()
                     end
                     l.Value = D
                     l.Tables = {}
                     for DC, TB in next, l.Value do
                         table.insert(l.Tables, TB == true and DC)
+                        task.wait()
                     end
                 else
                     if not C then
@@ -3399,6 +3427,7 @@ local aa = {
                     if F:IsA "TextButton" then
                         F:Destroy()
                     end
+                    task.wait()
                 end
                 l:Display()
                 k:SafeCallback(l.Callback, l.Value)
@@ -3422,6 +3451,7 @@ local aa = {
                         table.insert(B, E)
                         table.insert(l.Tables, D)
                     end
+                    task.wait()
                 end
             elseif type(j.Default) == "number" and l.Values[j.Default] ~= nil then
                 table.insert(B, j.Default)
@@ -3437,6 +3467,7 @@ local aa = {
                     if not j.Multi then
                         break
                     end
+                    task.wait()
                 end
                 if j.Multi then
                     l:SetValue(TOSX)
@@ -5000,6 +5031,7 @@ local aa = {
             e._motors = {}
             for f, g in pairs(c) do
                 e._motors[f] = aj(g)
+                task.wait()
             end
             return e
         end
@@ -5013,6 +5045,7 @@ local aa = {
                 if not h then
                     e = false
                 end
+                task.wait()
             end
             c._onStep:fire(c:getValue())
             if e then
@@ -5034,6 +5067,7 @@ local aa = {
             for e, f in pairs(d) do
                 local g = assert(c._motors[e], ("Unknown motor for key %s"):format(e))
                 g:setGoal(f)
+                task.wait()
             end
             if c._useImplicitConnections then
                 c:start()
@@ -5043,6 +5077,7 @@ local aa = {
             local d = {}
             for e, f in pairs(c._motors) do
                 d[e] = f:getValue()
+                task.wait()
             end
             return d
         end
@@ -5066,6 +5101,7 @@ local aa = {
                     expect(ai._complete).to.equal(false)
                     for aj = 1, 30 do
                         ai:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     expect(ai._complete).to.equal(true)
                 end
@@ -5180,6 +5216,7 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 60 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5202,6 +5239,7 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 59 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should be uncomplete",
@@ -5218,6 +5256,7 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 60 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5250,6 +5289,7 @@ local aa = {
                         table.remove(ag.signal._connections, ah)
                         return
                     end
+                    task.wait()
                 end
             end
         end
@@ -5261,9 +5301,11 @@ local aa = {
         function ag.fire(ah, ...)
             for ai, aj in pairs(ah._connections) do
                 aj._handler(...)
+                task.wait()
             end
             for c, d in pairs(ah._threads) do
                 coroutine.resume(d, ...)
+                task.wait()
             end
             ah._threads = {}
         end
@@ -5487,6 +5529,7 @@ local aa = {
                     ah:setGoal(aj)
                     for c = 1, 100 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5562,6 +5605,7 @@ local aa = {
         for ag, ah in next, ab:GetChildren() do
             local aj = ac(ah)
             af[aj.Name] = aj
+            task.wait()
         end
         return af
     end,
@@ -5869,6 +5913,7 @@ do
                 local z, A = x[y], {}
                 for B in ag, z do
                     l(A, B)
+                    task.wait()
                 end
                 return A
             end, FindFirstChild = function(y, z)
@@ -5879,6 +5924,7 @@ do
                     if A.Name == z then
                         return A
                     end
+                    task.wait()
                 end
                 return
             end, GetFullName = function(y)
@@ -5896,6 +5942,7 @@ do
             end
             return B(C, ...)
         end
+        task.wait()
     end
     local C = function(C, D, E)
         local F, G, H, I, J = ac({}, {__mode = "k"}), function(F)
@@ -5923,6 +5970,7 @@ do
                 if N.Name == M then
                     return N
                 end
+                task.wait()
             end
             G(M)
         end
@@ -5965,11 +6013,13 @@ do
         if I then
             for M, N in ag, I do
                 L[M] = N
+                task.wait()
             end
         end
         if J then
             for M, N in ag, J do
                 D(N, L)
+                task.wait()
             end
         end
         return L
@@ -5977,6 +6027,7 @@ do
     local E = {}
     for F, G in ag, a do
         l(E, D(G))
+        task.wait()
     end
     for H, I in ag, aa do
         local J = s[H]
@@ -5985,6 +6036,7 @@ do
         if K == "LocalScript" or K == "Script" then
             l(v, J)
         end
+        task.wait()
     end
     local J = function(J)
         local K, L = J.ClassName, u[J]
@@ -6078,6 +6130,7 @@ do
     end
     for K, L in ag, v do
         o(J, L)
+        task.wait()
     end
     do
         local M
@@ -6086,6 +6139,7 @@ do
                 M = O
                 break
             end
+            task.wait()
         end
         if M then
             return J(M)
