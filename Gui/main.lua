@@ -769,7 +769,7 @@ local aa = {
         local h = d.Parent.Parent
         local i, j = e(h.Packages.Flipper), e(h.Creator)
         local k, l = j.New, i.Spring.new
-        return function(m, n, o, p)
+        return function(m, n, o, p, t)
             local q, ts = {IsLocked = false}, game:GetService "TweenService"
             q.TitleLabel =
                 k(
@@ -788,7 +788,9 @@ local aa = {
                     BackgroundColor3 = Color3.fromRGB(255, 255, 255),
                     BackgroundTransparency = 1,
                     ThemeTag = {TextColor3 = "Text"}
-                }
+                },
+                {},
+                t
             )
             if p and p == "MiniParagraph" then
                 q.Frame =
@@ -802,7 +804,9 @@ local aa = {
                     AutomaticSize = Enum.AutomaticSize.Y,
                     Text = "",
                     LayoutOrder = 7
-                }
+                },
+                {},
+                t
                 )
             else
                 q.DescLabel =
@@ -820,7 +824,9 @@ local aa = {
                     BackgroundTransparency = 1,
                     Size = UDim2.new(1, 0, 0, 14),
                     ThemeTag = {TextColor3 = "SubText"}
-                }
+                },
+                {},
+                t
             )
             q.LabelHolder =
                 k(
@@ -835,12 +841,13 @@ local aa = {
                 {
                     k(
                         "UIListLayout",
-                        {SortOrder = Enum.SortOrder.LayoutOrder, VerticalAlignment = Enum.VerticalAlignment.Center}
+                        {SortOrder = Enum.SortOrder.LayoutOrder, VerticalAlignment = Enum.VerticalAlignment.Center},{},t
                     ),
-                    k("UIPadding", {PaddingBottom = UDim.new(0, 13), PaddingTop = UDim.new(0, 13)}),
+                    k("UIPadding", {PaddingBottom = UDim.new(0, 13), PaddingTop = UDim.new(0, 13)},{},t),
                     q.TitleLabel,
                     q.DescLabel
-                }
+                },
+                t
             )
             q.Border =
                 k(
@@ -850,7 +857,9 @@ local aa = {
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border,
                     Color = Color3.fromRGB(0, 0, 0),
                     ThemeTag = {Color = "ElementBorder"}
-                }
+                },
+                {},
+                t
                 )
             q.Frame =
                 k(
@@ -865,7 +874,8 @@ local aa = {
                     LayoutOrder = 7,
                     ThemeTag = {BackgroundColor3 = "Element", BackgroundTransparency = "ElementTransparency"}
                 },
-                {k("UICorner", {CornerRadius = UDim.new(0, 4)}), q.Border, q.LabelHolder}
+                {k("UICorner", {CornerRadius = UDim.new(0, 4)},{},t), q.Border, q.LabelHolder},
+                t
                 )
             end
             function q.SetTitle(r, s)
@@ -886,7 +896,9 @@ local aa = {
                         Size = UDim2.fromScale(1, 1),
                         Parent = q.Frame,
                         Visible = false
-                    }
+                    },
+                    {},
+                    t
                 )
                 q.Locked =
                 k(
@@ -900,7 +912,7 @@ local aa = {
                         Visible = true
                     },
                     {
-                        k("UICorner",{CornerRadius = UDim.new(0, 4)}),
+                        k("UICorner",{CornerRadius = UDim.new(0, 4)},{},t),
                         k(
                             "ImageLabel",
                             {
@@ -910,9 +922,12 @@ local aa = {
                                 AnchorPoint = Vector2.new(0.5, 0.5),
                                 Image = "http://www.roblox.com/asset/?id=18855086552",
                                 ImageColor3 = Color3.fromRGB(0, 0, 0)
-                            }
+                            },
+                            {},
+                            t
                         )
-                    }
+                    },
+                    t
                 )
                 function q.SetDesc(r, s)
                     if s == nil then
@@ -2376,7 +2391,7 @@ local aa = {
             k.Registry[m].Properties = n
             k.UpdateTheme()
         end
-        function k.New(m, n, o)
+        function k.New(m, n, o, t)
             local p = Instance.new(m)
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
@@ -2390,6 +2405,9 @@ local aa = {
                 v.Parent = p
             end
             l(p, n)
+            if t then
+                task.wait()
+            end
             return p
         end
         function k.SpringMotor(m, n, o, p, s)
@@ -2438,7 +2456,7 @@ local aa = {
             assert(n.Title, "Button - Missing Title")
             n.Callback = n.Callback or function()
                 end
-            local o = e(k.Element)(n.Title, n.Description, m.Container, true)
+            local o = e(k.Element)(n.Title, n.Description, m.Container, true, n.Wait)
             local p =
                 j(
                 "ImageLabel",
@@ -2495,7 +2513,7 @@ local aa = {
                 z.Vib = E
             end
             z:SetHSVFromRGB(z.Value)
-            local A = e(t.Element)(x.Title, x.Description, v.Container, true)
+            local A = e(t.Element)(x.Title, x.Description, v.Container, true, x.Wait)
             z.SetTitle = A.SetTitle
             z.SetDesc = A.SetDesc
             z.Lock = A.Lock
@@ -2986,7 +3004,7 @@ local aa = {
                     Callback = j.Callback or function()
                         end
                 },
-                ac(f.Element)(j.Title, j.Description, h.Container, false)
+                ac(f.Element)(j.Title, j.Description, h.Container, false, j.Wait)
             m.DescLabel.Size = UDim2.new(1, -170, 0, 14)
             l.SetTitle = m.SetTitle
             l.SetDesc = m.SetDesc
@@ -3470,7 +3488,7 @@ local aa = {
                         end,
                     Type = "Input"
                 },
-                ac(aj.Element)(f.Title, f.Description, d.Container, false)
+                ac(aj.Element)(f.Title, f.Description, d.Container, false, f.Wait)
             h.SetTitle = i.SetTitle
             h.SetDesc = i.SetDesc
             h.Lock = i.Lock
@@ -3561,7 +3579,7 @@ local aa = {
                         end
                 },
                 false,
-                ac(aj.Element)(f.Title, f.Description, d.Container, true)
+                ac(aj.Element)(f.Title, f.Description, d.Container, true, f.Wait)
             h.SetTitle = j.SetTitle
             h.SetDesc = j.SetDesc
             h.Lock = j.Lock
@@ -3765,7 +3783,7 @@ local aa = {
         function aj.New(c, d)
             assert(d.Title, "Paragraph - Missing Title")
             d.Content = d.Content or ""
-            local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false)
+            local e = ac(ag.Element)(d.Title, d.Content, aj.Container, false, d.Wait)
             e.Frame.BackgroundTransparency = 0.92
             e.Border.Transparency = 0.6
             return e
@@ -3780,7 +3798,7 @@ local aa = {
         aj.__type = "MiniParagraph"
         function aj.New(c, d)
             assert(d.Title, "MiniParagraph - Missing Title")
-            local e = ac(ag.Element)(d.Title, "", aj.Container, "MiniParagraph")
+            local e = ac(ag.Element)(d.Title, "", aj.Container, "MiniParagraph", d.Wait)
             e.Frame.BackgroundTransparency = 1
             e.TitleLabel.Parent = e.Frame
             return e
@@ -3805,8 +3823,8 @@ local aa = {
                 {Value = nil, Default = f.Default, Min = f.Min, Max = f.Max, Rounding = f.Rounding, Callback = f.Callback or function(h)
                         end, Type = "Slider"},
                 false,
-                ac(aj.Element)(f.Title, f.Description, d.Container, false),
-                ac(aj.Textbox)(nil, nil, true)
+                ac(aj.Element)(f.Title, f.Description, d.Container, false, f.Wait),
+                ac(aj.Textbox)(nil, nil, true, f.Wait)
             j.DescLabel.Size = UDim2.new(1, -170, 0, 14)
             h.SetTitle = j.SetTitle
             h.SetDesc = j.SetDesc
@@ -3960,7 +3978,7 @@ local aa = {
             local g = d.Library
             assert(f.Title, "Toggle - Missing Title")
             local h, i = {Value = f.Default or false, Default = f.Default or false, Callback = f.Callback or function(h)
-                        end, Type = "Toggle"}, ac(aj.Element)(f.Title, f.Description, d.Container, true)
+                        end, Type = "Toggle"}, ac(aj.Element)(f.Title, f.Description, d.Container, true, f.Wait)
             i.DescLabel.Size = UDim2.new(1, -54, 0, 14)
             h.SetTitle = i.SetTitle
             h.SetDesc = i.SetDesc
