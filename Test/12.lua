@@ -2335,7 +2335,6 @@ local aa = {
                     }
                 }
             }
-            warn(tostring(e(h).Transparency))
         local l = function(l, m)
             if m.ThemeTag then
                 k.AddThemeObject(l, m.ThemeTag)
@@ -2357,7 +2356,13 @@ local aa = {
             return i.Dark[m]
         end
         function k.UpdateTheme()
+            local li = 0
             for m, n in next, k.Registry do
+                li += 1
+                if li >= 7 then
+                    li = 0
+                    task.wait()
+                end
                 for o, p in next, n.Properties do
                     m[o] = k.GetThemeProperty(p)
                 end
