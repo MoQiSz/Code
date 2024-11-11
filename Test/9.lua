@@ -2378,9 +2378,14 @@ local aa = {
         end
         function k.New(m, n, o)
             local p = Instance.new(m)
+            local li = 0
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
-                warn(q, r, e(d.Parent.Parent).Transparency)
+                li += 1
+                if li >= 9 then
+                    li = 0
+                    task.wait()
+                end
             end
             for s, t in next, n or {} do
                 if s ~= "ThemeTag" then
