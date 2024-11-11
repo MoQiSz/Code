@@ -2361,6 +2361,18 @@ local aa = {
                     m[o] = k.GetThemeProperty(p)
                 end
             end
+
+            --[[
+                        local li = 0
+            for q, r in next, k.DefaultProperties[m] or {} do
+                p[q] = r
+                li += 1
+                if li >= 8 then
+                    li = 0
+                    task.wait()
+                end
+            end
+            ]]
             for o, p in next, k.TransparencyMotors do
                 p:setGoal(j.Instant.new(k.GetThemeProperty "ElementTransparency"))
             end
@@ -2380,7 +2392,6 @@ local aa = {
             local p = Instance.new(m)
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
-                warn(q, r, e(h).Transparency)
             end
             for s, t in next, n or {} do
                 if s ~= "ThemeTag" then
@@ -2418,6 +2429,7 @@ local aa = {
             end
             return t, u
         end
+        task.wait()
         return k
     end,
     [19] = function()
