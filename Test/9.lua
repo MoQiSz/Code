@@ -132,6 +132,7 @@ local aa = {
             Window = nil,
             WindowFrame = nil,
             Unloaded = false,
+            UnloadedCallback = {},
             Reseting = false,
             Theme = "Darker",
             DialogOpen = false,
@@ -228,7 +229,17 @@ local aa = {
                 if getgenv then
                     getgenv().LoadedFluentCrazyDay = nil
                 end
+                for uy, fl in next, x.UnloadedCallback do
+                    task.spawn(fl)
+                end
             end
+        end
+        function x.DestroyCallback(C, D)
+            D = D or function()
+
+            end
+            table.insert(x.UnloadedCallback, type(D) == "function" and D or function()
+            end)
         end
         function x.ToggleAcrylic(C, D)
             if x.Window then
@@ -238,13 +249,13 @@ local aa = {
         function x.ToggleTransparency(C, D)
             x.Transparency = D
             if x.Window then
-                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = D >= 0.85 and 0.85 or D
+                x.Window.AcrylicPaint.Frame.Background.BackgroundTransparency = (tonumber(D) >= tonumber(0.9) and tonumber(0.9)) or tonumber(D)
             end
             if x.NotifyHolder then
                 if #x.NotifyHolder:GetChildren() > 1 then
                     for _ , XL in next, x.NotifyHolder:GetChildren() do
                         if XL:IsA("Frame") then
-                            XL.Frame.Holder.Background.BackgroundTransparency =D >= 0.85 and 0.85 or D
+                            XL.Frame.Holder.Background.BackgroundTransparency = (tonumber(D) >= tonumber(0.9) and tonumber(0.9)) or tonumber(D)
                         end
                     end
                 end
@@ -391,7 +402,7 @@ local aa = {
         local h, i = e(d.Parent.Parent.Creator), e(d.Parent.AcrylicBlur)
         local j = h.New
         return function(k)
-            local l, D = {}, e(d.Parent.Parent)
+            local l = {}
             l.Frame =
                 j(
                 "Frame",
@@ -421,7 +432,7 @@ local aa = {
                     j(
                         "Frame",
                         {
-                            BackgroundTransparency = (D.Transparency >= 0.85 and 0.85) or D.Transparency,
+                            BackgroundTransparency = (tonumber(e(d.Parent.Parent).Transparency) >= tonumber(0.9) and tonumber(0.9)) or tonumber(e(d.Parent.Parent).Transparency),
                             Size = UDim2.fromScale(1, 1),
                             Name = "Background",
                             ThemeTag = {BackgroundColor3 = "AcrylicMain"}
@@ -2369,6 +2380,7 @@ local aa = {
             local p = Instance.new(m)
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
+                warn(q, r, e(d.Parent.Parent).Transparency)
             end
             for s, t in next, n or {} do
                 if s ~= "ThemeTag" then
@@ -5055,6 +5067,7 @@ local aa = {
                     expect(ai._complete).to.equal(false)
                     for aj = 1, 30 do
                         ai:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     expect(ai._complete).to.equal(true)
                 end
@@ -5169,6 +5182,7 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 60 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5191,6 +5205,7 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 59 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should be uncomplete",
@@ -5207,6 +5222,7 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 60 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5476,6 +5492,7 @@ local aa = {
                     ah:setGoal(aj)
                     for c = 1, 100 do
                         ah:step(1.6666666666666665E-2)
+                        task.wait()
                     end
                     it(
                         "should complete",
