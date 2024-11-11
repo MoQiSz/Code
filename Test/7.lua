@@ -2378,9 +2378,14 @@ local aa = {
         end
         function k.New(m, n, o)
             local p = Instance.new(m)
+            local li = 0
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
-                task.wait()
+                if li >= 10 then
+                    li = 0
+                    task.wait()
+                end
+                li += 1
             end
             for s, t in next, n or {} do
                 if s ~= "ThemeTag" then
