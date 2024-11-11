@@ -2335,7 +2335,6 @@ local aa = {
                     }
                 }
             }
-            warn(tostring(e(h.Parent).Transparency))
         local l = function(l, m)
             if m.ThemeTag then
                 k.AddThemeObject(l, m.ThemeTag)
@@ -2377,7 +2376,7 @@ local aa = {
             k.Registry[m].Properties = n
             k.UpdateTheme()
         end
-        function k.New(m, n, o)
+        function k.New(m, n, o, t)
             local p = Instance.new(m)
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
@@ -2391,6 +2390,10 @@ local aa = {
                 v.Parent = p
             end
             l(p, n)
+            task.wait()
+            if t then
+                task.wait()
+            end
             return p
         end
         function k.SpringMotor(m, n, o, p, s)
@@ -5067,7 +5070,6 @@ local aa = {
                     expect(ai._complete).to.equal(false)
                     for aj = 1, 30 do
                         ai:step(1.6666666666666665E-2)
-                        task.wait()
                     end
                     expect(ai._complete).to.equal(true)
                 end
@@ -5182,7 +5184,6 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 60 do
                         ah:step(1.6666666666666665E-2)
-                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5205,7 +5206,6 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 59 do
                         ah:step(1.6666666666666665E-2)
-                        task.wait()
                     end
                     it(
                         "should be uncomplete",
@@ -5222,7 +5222,6 @@ local aa = {
                     ah:setGoal(ai)
                     for aj = 1, 60 do
                         ah:step(1.6666666666666665E-2)
-                        task.wait()
                     end
                     it(
                         "should complete",
@@ -5492,7 +5491,6 @@ local aa = {
                     ah:setGoal(aj)
                     for c = 1, 100 do
                         ah:step(1.6666666666666665E-2)
-                        task.wait()
                     end
                     it(
                         "should complete",
