@@ -2360,7 +2360,6 @@ local aa = {
                 for o, p in next, n.Properties do
                     m[o] = k.GetThemeProperty(p)
                 end
-                task.wait()
             end
             for o, p in next, k.TransparencyMotors do
                 p:setGoal(j.Instant.new(k.GetThemeProperty "ElementTransparency"))
@@ -2379,8 +2378,14 @@ local aa = {
         end
         function k.New(m, n, o)
             local p = Instance.new(m)
+            local li = 0
             for q, r in next, k.DefaultProperties[m] or {} do
                 p[q] = r
+                if li >= 5 then
+                    li = 0
+                    task.wait()
+                end
+                li += 1
             end
             for s, t in next, n or {} do
                 if s ~= "ThemeTag" then
