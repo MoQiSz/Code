@@ -196,6 +196,9 @@ local aa = {
                 print "You cannot create more than one window."
                 return
             end
+            if D.DisableEnabled then
+                x.GUI.Enabled = false
+            end
             x.MinimizeKey = D.MinimizeKey
             local E = e(s.Window) {
                 Parent = w,
