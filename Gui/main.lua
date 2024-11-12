@@ -199,6 +199,7 @@ local aa = {
             if D.DisableEnabled then
                 x.GUI.Enabled = false
             end
+            x.Name = D.Name or ""
             x.MinimizeKey = D.MinimizeKey
             local E = e(s.Window) {
                 Parent = w,
