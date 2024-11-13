@@ -137,6 +137,7 @@ local aa = {
             Theme = "Darker",
             DialogOpen = false,
             Transparency = 0.5,
+            Loaded = 0,
             MinimizeKeybind = nil,
             NotifyHolder = nil,
             MinimizeKey = Enum.KeyCode.LeftControl,
