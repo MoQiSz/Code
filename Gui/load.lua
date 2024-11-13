@@ -37,7 +37,7 @@ local Loading = {} do
                                         main.GUI.Enabled = false
                                     end
 
-                                    if not path and main.GUI.Parent then
+                                    if not path then
                                         Loader.SubContentLabel.Text = (main.Loaded >= 100 and "100") or tostring(main.Loaded).."% / 100%"
 
                                         if main.Loaded >= 100 then
@@ -49,13 +49,13 @@ local Loading = {} do
                                         else
                                             main.Loaded += 1
                                         end
-
-                                        pcall(
-                                            function()
-                                                Loader.SubContentLabel.Text = (main.Loaded >= 100 and "100") or tostring(main.Loaded).."% / 100%"
-                                            end
-                                        )
                                     end
+
+                                    pcall(
+                                        function()
+                                            Loader.SubContentLabel.Text = (main.Loaded >= 100 and "100") or tostring(main.Loaded).."% / 100%"
+                                        end
+                                    )
 
                                     task.wait()
                                 until not main.GUI.Parent
