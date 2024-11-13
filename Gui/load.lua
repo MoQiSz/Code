@@ -1,8 +1,14 @@
 local Loading = {} do
-
-    function Loading:SetLoading(main, path, load, count, number)
+    local stop = false
+    function Loading:SetValue(value)
+        stop = value
+    end
+    function Loading:SetLoading(main, load, count, number)
         local Loader, Connect
-        if load ~= 0 then
+        if not load or (load and typeof(load) ~= "number") then
+               load = 0
+        end
+        if load >= 1 then
             local NotifyHolder = Instance.new("ScreenGui")
             NotifyHolder.Parent = game:GetService("CoreGui")
 
@@ -24,7 +30,7 @@ local Loading = {} do
             )
             Loader = main:Notify(
                 {
-                    Title = "[Loading]"..main.Name,
+                    Title = "[Loading] —— "..main.Name,
                     SubContent = "0% / 100%",
                     Disable = true
                 }
@@ -47,7 +53,7 @@ local Loading = {} do
                                 end
                             )
 
-                            if not path then
+                            if stop then
                                 Loader.SubContentLabel.Text = (main.Loaded >= 100 and "100") or tostring(main.Loaded).."% / 100%"
 
                                 if main.Loaded >= 100 then
