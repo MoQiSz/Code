@@ -15,15 +15,11 @@ local Loading = {} do
                     return c
                 end
             })
-            task.spawn(
-                function()
-                    Connect = main.Window.Root.DescendantAdded:Connect(
-                        function(Child)
-                            if Child:IsA("TextButton") and main.Loaded < 100 then
-                                main.Loaded += (main.Loaded < count and #main.Options / #main.Options) or number
-                            end
-                        end
-                    )
+            Connect = main.Window.Root.DescendantAdded:Connect(
+                function(Child)
+                    if Child:IsA("TextButton") and main.Loaded < 100 then
+                        main.Loaded += (main.Loaded < count and #main.Options / #main.Options) or number
+                    end
                 end
             )
             task.spawn(
