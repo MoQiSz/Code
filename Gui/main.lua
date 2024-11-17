@@ -1666,7 +1666,6 @@ local aa = {
                     end
                     return s
                 end,
-                "e",
                 function(q, p, r)
                     local s = {Callback = r or function()
                     end, Dragging = nil, DragA = nil, DragB = nil, DragC = nil}
